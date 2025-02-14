@@ -188,7 +188,7 @@ const Navbar = ({ userName, setUserName }) => {
 
         <div className="hidden md:flex items-center gap-4">
           {/* City Selection */}
-          {/* {isHomePage && (
+          {isHomePage && (
             <p
               className="text-white font-semibold flex items-center gap-1 cursor-pointer hover:text-red-600 transition duration-300"
               onClick={() => setShowLocationPopup(true)}
@@ -199,7 +199,7 @@ const Navbar = ({ userName, setUserName }) => {
           )}
           {showLocationPopup && (
             <LocationPopup setShowLocationPopup={setShowLocationPopup} />
-          )} */}
+          )}
 
           {/* Login Section */}
           {userName ? (

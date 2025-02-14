@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import axios from "axios";
-// import CustomButtonGroup from "./CustomButtonGroup";
+import CustomButtonGroup from "./CustomButtonGroup";
 import MovieCard from "./MovieCard";
 import {backendUrl} from "../../App"
 
@@ -25,7 +25,7 @@ const MovieList = () => {
       }
   } catch (error) {
       console.error("Error fetching user:", error);
-      // window.location.href = "/Login"; 
+      window.location.href = "/Login"; 
   }
   };
 
@@ -69,7 +69,7 @@ const MovieList = () => {
 
   return (
     <div className="rounded-lg shadow-md relative my-10 mx-auto px-[150px]">
-      {movies.length > 0 && (
+      {movies.length > 0 && user && (
         <>
        <Carousel
   responsive={responsive}
@@ -82,7 +82,7 @@ const MovieList = () => {
   containerClass="carousel-container"
   itemClass="carousel-item-padding-40-px"
   renderButtonGroupOutside={true} 
-  // customButtonGroup={<CustomButtonGroup />}
+  customButtonGroup={<CustomButtonGroup />}
   customDotListClass="custom-dots"
 >
             {movies.map((Movie) => (
