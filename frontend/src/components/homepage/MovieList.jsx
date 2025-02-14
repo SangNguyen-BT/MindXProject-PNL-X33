@@ -2,13 +2,24 @@ import React, { useState, useEffect } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import axios from "axios";
-import CustomButtonGroup from "./CustomButtonGroup";
 import MovieCard from "./MovieCard";
 import {backendUrl} from "../../App"
 
 const MovieList = () => {
   const [user, setUser] = useState(null);
-  const [movies, setMovies] = useState([]);
+  // const [movies, setMovies] = useState([]);
+  const [onShowingMovies, setOnShowingMovies] = useState([])
+
+  const getOnShowingMovies = async () => {
+    try {
+      const response = await axios.get(`${backendUrl}/api/movie/onshowing`);
+      if (response.data.ok) {
+        setOnShowingMovies(response.data.movies);
+      }
+    } catch (error) {
+      console.error("Error fetching on-showing movies:", error);
+    }
+  };
 
   const getUser = async () => {
     try {
@@ -21,31 +32,32 @@ const MovieList = () => {
       if (response.data.ok) {
           setUser(response.data.data); 
       } else {
-          window.location.href = "/Login";
+        window.location.href = "/Login";
       }
   } catch (error) {
       console.error("Error fetching user:", error);
-      window.location.href = "/Login"; 
+
   }
   };
 
-  const getMovies = async () => {
-    try {
-      const response = await axios.get(`${backendUrl}/api/movie/movies`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.data.ok) {
-        setMovies(response.data.data);
-      }
-    } catch (error) {
-      console.error("Error fetching movies:", error);
-    }
-  };
+  // const getMovies = async () => {
+  //   try {
+  //     const response = await axios.get(`${backendUrl}/api/movie/movies`, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     if (response.data.ok) {
+  //       setMovies(response.data.data);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching movies:", error);
+  //   }
+  // };
 
   useEffect(() => {
-    getMovies();
+    // getMovies();
+    getOnShowingMovies()
     getUser();
   }, []);
 
@@ -69,7 +81,7 @@ const MovieList = () => {
 
   return (
     <div className="rounded-lg shadow-md relative my-10 mx-auto px-[150px]">
-      {movies.length > 0 && user && (
+      {onShowingMovies.length > 0 && user && (
         <>
        <Carousel
   responsive={responsive}
@@ -82,10 +94,9 @@ const MovieList = () => {
   containerClass="carousel-container"
   itemClass="carousel-item-padding-40-px"
   renderButtonGroupOutside={true} 
-  customButtonGroup={<CustomButtonGroup />}
   customDotListClass="custom-dots"
 >
-            {movies.map((Movie) => (
+            {onShowingMovies.map((Movie) => (
               <div
                 key={Movie._id}
                 className="flex flex-row justify-between gap-4"
