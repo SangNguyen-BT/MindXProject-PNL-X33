@@ -657,3 +657,50 @@ export const getMovieBySearch = async (req, res, next) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// Controller để lấy danh sách phim sắp chiếu
+export const getUpcomingMovies = async (req, res) => {
+  try {
+    const currentDate = new Date();
+    const upcomingMovies = await MovieModel.find({
+      releaseDate: { $gt: currentDate }
+    })
+    .sort({ releaseDate: 1 })
+    .limit(8);
+    
+    res.status(200).json({
+      ok: true,
+      message: "Upcoming movies retrieved successfully",
+      data: upcomingMovies
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      ok: false, 
+      message: 'Lỗi server',
+      data: []
+    });
+  }
+};
+
+// Controller để lấy danh sách phim thịnh hành
+export const getTrendingMovies = async (req, res) => {
+  try {
+    const trendingMovies = await MovieModel.find({
+      releaseDate: { $lte: new Date() }
+    })
+    .sort({ viewCount: -1 })
+    .limit(8);
+    
+    res.status(200).json({
+      ok: true,
+      message: "Trending movies retrieved successfully",
+      data: trendingMovies
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      ok: false, 
+      message: 'Lỗi server',
+      data: []
+    });
+  }
+};

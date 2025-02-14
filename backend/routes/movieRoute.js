@@ -22,6 +22,8 @@ import {
   updateMovie,
   updateSchedule,
   updateScreen,
+  getUpcomingMovies,
+  getTrendingMovies,
 } from "../controllers/movieController.js";
 
 import authAdminToken from "../middleware/checkAdminToken.js";
@@ -67,7 +69,9 @@ Router.route("/schedulebymovie/:screenid/:date/:movieid").get(
 );
 Router.route("/getuserbookings").get(authToken, getUserBookings);
 Router.route("/getavailabledates/:city/:movieid").get(getAvailableDates);
-// Router.route("/search/:keyword").get(authToken, getMovieBySearch)
+Router.route("/search/:keyword").get(authToken, getMovieBySearch)
 Router.route("/search/:keyword").get(getMovieBySearch)
+Router.route("/upcoming").get(getUpcomingMovies);
+Router.route("/trending").get(getTrendingMovies);
 
 export default Router;
