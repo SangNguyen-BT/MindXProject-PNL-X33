@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Typography, Grid, Card, CardMedia, CardContent } from '@mui/material';
 import PropTypes from 'prop-types';
+
+const API_URL = 'http://localhost:5173'; // hoặc URL của backend của bạn
 
 const MovieSection = ({ title, movies }) => (
   <Box sx={{ mb: 4 }}>
@@ -15,7 +17,7 @@ const MovieSection = ({ title, movies }) => (
             <CardMedia
               component="img"
               height="300"
-              image={movie.poster}
+              image={movie.poster || movie.portraitImgUrl}
               alt={movie.title}
               sx={{ objectFit: 'cover' }}
             />
@@ -43,9 +45,10 @@ MovieSection.propTypes = {
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      poster: PropTypes.string.isRequired,
-      duration: PropTypes.number.isRequired,
-      releaseDate: PropTypes.string.isRequired,
+      poster: PropTypes.string,
+      portraitImgUrl: PropTypes.string,
+      duration: PropTypes.number,
+      releaseDate: PropTypes.string,
     })
   ).isRequired,
 };
@@ -57,11 +60,21 @@ const UpcomingMovie = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const upcomingResponse = await axios.get('/api/movies/upcoming');
-        setUpcomingMovies(upcomingResponse.data.data || []);
-
-        const trendingResponse = await axios.get('/api/movies/trending');
-        setTrendingMovies(trendingResponse.data.data || []);
+        const response = await axios.get(`${API_URL}/api/movies`);
+        console.log('API Response:', response.data);
+        
+        const allMovies = response.data.data || [];
+        console.log('All Movies:', allMovies);
+        
+        const halfLength = Math.ceil(allMovies.length / 2);
+        const upcoming = allMovies.slice(0, halfLength);
+        const trending = allMovies.slice(halfLength);
+        
+        console.log('Upcoming Movies:', upcoming);
+        console.log('Trending Movies:', trending);
+        
+        setUpcomingMovies(upcoming);
+        setTrendingMovies(trending);
       } catch (error) {
         console.error('Lỗi khi lấy dữ liệu phim:', error);
         setUpcomingMovies([]);
@@ -71,6 +84,9 @@ const UpcomingMovie = () => {
 
     fetchMovies();
   }, []);
+
+  console.log('State - Upcoming:', upcomingMovies);
+  console.log('State - Trending:', trendingMovies);
 
   return (
     <Box sx={{ p: 3 }}>
