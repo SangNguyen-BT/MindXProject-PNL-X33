@@ -11,10 +11,12 @@ import {
   getMovieBySearch,
   getMovies,
   getMoviesId,
+  getOnShowingMovies,
   getScheduleByMovies,
   getSchedules,
   getScreensByCity,
   getScreensByMoviesSchedule,
+  getUpcomingMovies,
   getUserBookings,
   removeMovie,
   removeSchedule,
@@ -57,6 +59,8 @@ Router.route("/screens/:screenId/movie-schedules/:scheduleId")
 }
 Router.route("/bookticket").post(authToken, bookTicket);
 
+Router.route("/onshowing").get(getOnShowingMovies)
+Router.route("/upcoming").get(getUpcomingMovies)
 Router.route("/movies").get(getMovies);
 Router.route("/movies/:id").get(getMoviesId);
 Router.route("/screensbymovieschedule/:city/:date/:movieid").get(
