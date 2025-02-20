@@ -71,7 +71,7 @@ Router.route("/getuserbookings").get(authToken, getUserBookings);
 Router.route("/getavailabledates/:city/:movieid").get(getAvailableDates);
 Router.route("/search/:keyword").get(authToken, getMovieBySearch)
 Router.route("/search/:keyword").get(getMovieBySearch)
-Router.route("/upcoming").get(getUpcomingMovies);
-Router.route("/trending").get(getTrendingMovies);
+// Router.route("/upcoming").get(getUpcomingMovies);
+// Router.route("/trending").get(getTrendingMovies);
 
 export default Router;

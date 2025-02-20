@@ -16,7 +16,7 @@ const setupRouter = [
   { url: "/search/:keyword", component: MovieSearch },
   { url: "/About", component: About },
   { url: "/Contact", component: Contact },
-  { url: "/:city/movies/:movieid", component: MovieDetail},
+  { url: "/movies/:movieid", component: MovieDetail},
   { url: "/Login", component: Login},
   { url: "/reset-password/:token", component: ResetPassword},
   { url: "/profile", component: MyProfile},
