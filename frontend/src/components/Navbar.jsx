@@ -11,6 +11,7 @@ import { RiArrowDropDownFill } from "react-icons/ri";
 import { backendUrl } from "../App";
 
 const Navbar = ({ userName, setUserName }) => {
+
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // search value
 
@@ -122,32 +123,38 @@ const Navbar = ({ userName, setUserName }) => {
         </div>
         {/* Menu section */}
         <div className="hidden md:block ">
-          <ul className="flex items-center gap-6 text-white ">
-            <li className="text-center group">
-              <Link
-                to="/"
-                className="text-white font-semibold group-hover:text-red-600 transition duration-500"
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/About"
-                className="text-white font-semibold hover:text-red-600 transition duration-300"
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/Contact"
-                className="text-white font-semibold hover:text-red-600 transition duration-300"
-              >
-                Contact
-              </Link>
-            </li>
-          </ul>
+        <ul className="flex gap-6">
+          <li>
+            <Link
+              to="/"
+              className={`font-semibold transition duration-300 ${
+                location.pathname === "/" ? "text-red-500" : "text-white hover:text-red-600"
+              }`}
+            >
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/About"
+              className={`font-semibold transition duration-300 ${
+                location.pathname === "/About" ? "text-red-500" : "text-white hover:text-red-600"
+              }`}
+            >
+              About
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/Contact"
+              className={`font-semibold transition duration-300 ${
+                location.pathname === "/Contact" ? "text-red-500" : "text-white hover:text-red-600"
+              }`}
+            >
+              Contact
+            </Link>
+          </li>
+        </ul>
         </div>
         {/* search section */}
         <form onSubmit={handleSearch}>
@@ -347,7 +354,7 @@ const Navbar = ({ userName, setUserName }) => {
           className="rounded-md bg-red-500 py-2 px-4 
       border border-transparent text-center text-sm text-white transition-all shadow-md 
       hover:shadow-lg focus:bg-red-700 focus:shadow-none active:bg-red-700 hover:bg-red-700 active:shadow-none 
-      mt-2"
+      mt-2 active:text-red-700"
         >
           Login
         </Link>

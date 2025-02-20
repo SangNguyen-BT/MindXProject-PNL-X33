@@ -1,6 +1,10 @@
 import About from "../components/homepage/About";
 import Contact from "../components/homepage/Contact";
 import MovieSearch from "../components/homepage/MovieSearch";
+import AccountInfo from "../components/AccountInfo";
+import Tickets from "../components/Tickets";
+import TermConditions from "../components/TermConditions";
+import Privacy from "../components/Privacy";
 
 import HomePage from "../pages/HomePage";
 import Login from "../pages/Login";
@@ -22,6 +26,10 @@ const setupRouter = [
   { url: "/profile", component: MyProfile},
   { url: "/:city/movies/:movieid/buytickets", component: BuyTickets},
   { url: "/:city/movies/:movieid/buytickets/:screenid", component: SelectSeat},
-  { url: "/payment", component: Payment}
+  { url: "/payment", component: Payment},
+  { url: "/accountInfo", component: AccountInfo},
+  { url : "/tickets", component : Tickets},
+  { url : "/termsCondition", component : TermConditions},
+  { url : "/privacy", component : Privacy}
 ];
 export { setupRouter };
