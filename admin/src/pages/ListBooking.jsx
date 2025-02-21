@@ -38,7 +38,7 @@ const ListBooking = () => {
             <th className="border border-gray-400 px-4 py-2">User Name</th>
             <th className="border border-gray-400 px-4 py-2">Email</th>
             <th className="border border-gray-400 px-4 py-2">Movie</th>
-            <th className="border border-gray-400 px-4 py-2">Screen</th>
+            <th className="border border-gray-400 px-4 py-2">Cinema</th>
             <th className="border border-gray-400 px-4 py-2">Seats</th>
             <th className="border border-gray-400 px-4 py-2">Total Price</th>
             <th className="border border-gray-400 px-4 py-2">Show Date</th>

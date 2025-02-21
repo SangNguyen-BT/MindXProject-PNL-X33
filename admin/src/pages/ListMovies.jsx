@@ -16,8 +16,20 @@ const ListMovies = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalMovies, setTotalMovies] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalMovies, setTotalMovies] = useState(0);
+
+  const genres = [
+    "Action",
+    "Comedy",
+    "Drama",
+    "Fantasy",
+    "Horror",
+    "Science",
+    "Thriller",
+    "Cartoon",
+    "Other",
+  ];
 
   const fetchList = async (page) => {
     try {
@@ -27,10 +39,10 @@ const ListMovies = () => {
           limit: 5,
         },
       });
-      
+
       if (response.data.ok) {
         setList(response.data.dataAdmin);
-        setTotalMovies(response.data.totalMovies)
+        setTotalMovies(response.data.totalMovies);
       } else {
         toast.error(response.data.message);
       }
@@ -147,12 +159,12 @@ const ListMovies = () => {
 
   useEffect(() => {
     fetchList(currentPage);
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }, [currentPage]);
 
   const totalPages = Math.ceil(totalMovies / 5);
 
-// Hàm thay đổi trang
+  // Hàm thay đổi trang
   const handlePageChange = (page) => {
     if (page > 0 && page <= totalPages) {
       setCurrentPage(page);
@@ -258,25 +270,25 @@ const ListMovies = () => {
         </table>
 
         {/* Phân trang */}
-    <div className="mt-4 flex justify-center">
-      <button 
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className="px-4 py-2 bg-gray-500 text-white rounded-l-lg"
-      >
-        Previous
-      </button>
-      <span className="px-4 py-2">
-        Page {currentPage} of {totalPages}
-      </span>
-      <button
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-        className="px-4 py-2 bg-gray-500 text-white rounded-r-lg"
-      >
-        Next
-      </button>
-    </div>
+        <div className="mt-4 flex justify-center">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-gray-500 text-white rounded-l-lg"
+          >
+            Previous
+          </button>
+          <span className="px-4 py-2">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-gray-500 text-white rounded-r-lg"
+          >
+            Next
+          </button>
+        </div>
       </div>
 
       {/* Modal for Editing Movie */}
@@ -291,9 +303,24 @@ const ListMovies = () => {
               <input
                 type="file"
                 onChange={(e) => setNewPortraitImg(e.target.files[0])}
-                className="w-full mb-2"
+                className="w-full"
               />
             </div>
+
+            {/* Show Image Preview */}
+            {(newPortraitImg || updatedMovie.portraitImgUrl) && (
+              <div className="mt-2">
+                <img
+                  src={
+                    newPortraitImg
+                      ? URL.createObjectURL(newPortraitImg)
+                      : updatedMovie.portraitImgUrl
+                  }
+                  alt="Preview"
+                  className="w-24 h-32 object-cover border rounded-md shadow-md mb-2"
+                />
+              </div>
+            )}
 
             <div>
               <label className="block mb-1">Movie Name</label>
@@ -309,13 +336,27 @@ const ListMovies = () => {
 
             <div>
               <label className="block mb-1">Genre</label>
-              <input
+              <select
+                multiple
                 name="genre"
-                placeholder="Genre"
                 value={updatedMovie.genre}
-                onChange={handleInputChange}
+                onChange={(e) =>
+                  setUpdatedMovie({
+                    ...updatedMovie,
+                    genre: Array.from(
+                      e.target.selectedOptions,
+                      (option) => option.value
+                    ),
+                  })
+                }
                 className="w-full mb-2 p-2 border rounded-md"
-              />
+              >
+                {genres.map((genre, index) => (
+                  <option key={index} value={genre}>
+                    {genre}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div>
@@ -373,9 +414,9 @@ const ListMovies = () => {
             </button>
             <h3 className="text-xl font-semibold mb-4">Add New Movie</h3>
 
-             <div className="flex-1 overflow-y-auto pr-2">
-        <CreateMoviePage onMovieAdded={onMovieAdded} />
-      </div>
+            <div className="flex-1 overflow-y-auto pr-2">
+              <CreateMoviePage onMovieAdded={onMovieAdded} genres={genres} />
+            </div>
           </div>
         </div>
       )}

@@ -5,7 +5,7 @@ import axios from "axios";
 import image from "../assets/upload.jpg";
 import { backendUrl } from "../App";
 
-const CreateMoviePage = ({onMovieAdded}) => {
+const CreateMoviePage = ({onMovieAdded, genres}) => {
   const [movie, setMovie] = useState({
     title: "",
     description: "",
@@ -18,18 +18,6 @@ const CreateMoviePage = ({onMovieAdded}) => {
     duration: 0,
     category: "on_showing",
   });
-
-  const genres = [
-    "Action",
-    "Comedy",
-    "Drama",
-    "Fantasy",
-    "Horror",
-    "Science",
-    "Thriller",
-    "Cartoon",
-    "Other",
-  ];
 
   const [portraitImagePreview, setPortraitImagePreview] = useState("");
   const [landscapeImgPreview, setLandscapeImgPreview ] = useState("")

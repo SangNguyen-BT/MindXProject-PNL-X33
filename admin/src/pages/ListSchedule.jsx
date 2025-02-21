@@ -335,6 +335,7 @@ const ListSchedule = () => {
                   }
                   className="w-full p-2 border border-gray-300 rounded-md"
                   placeholder="Enter movie name"
+                  disabled
                 />
               </div>
 
@@ -450,7 +451,14 @@ const ListSchedule = () => {
                     </div>
                   )}
 
-                  
+                  {/* Nút thêm ghế */}
+                  <button
+                    type="button"
+                    className="mt-2 text-blue-500 font-semibold"
+                    onClick={handleAddSeat}
+                  >
+                    Add Seat
+                  </button>
                 </div>
               </div>
 
