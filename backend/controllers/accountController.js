@@ -176,3 +176,49 @@ export const changeCity = async (req, res, next) => {
       .json({ ok: true, message: "City changed successfully", city });
   }
 };
+
+export const updateUserProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, city } = req.body;
+
+    const updatedUser = await AccountModel.findByIdAndUpdate(
+      id,
+      { name, email, city },
+      { new: true }
+    );
+
+    if (!updatedUser) return res.status(404).json({ error: "Không tìm thấy tài khoản." });
+
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
+export const changeUserPassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+
+    const account = await AccountModel.findById(id);
+    if (!account) return res.status(404).json({ error: "Tài khoản không tồn tại." });
+
+    // Kiểm tra mật khẩu cũ
+    const isMatch = await bcrypt.compare(oldPassword, account.password);
+    if (!isMatch) return res.status(400).json({ error: "Mật khẩu cũ không đúng." });
+
+    // Kiểm tra xác nhận mật khẩu
+    if (newPassword !== confirmPassword) return res.status(400).json({ error: "Mật khẩu xác nhận không khớp." });
+
+    // Mã hóa mật khẩu mới
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    account.password = hashedPassword;
+    await account.save();
+
+    res.json({ message: "Đổi mật khẩu thành công." });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
