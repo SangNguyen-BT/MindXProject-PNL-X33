@@ -15,6 +15,7 @@ export const createMovie = async (req, res, next) => {
       rating,
       genre,
       duration,
+      category
     } = req.body;
 
     const newMovie = new MovieModel({
@@ -25,6 +26,7 @@ export const createMovie = async (req, res, next) => {
       rating,
       genre,
       duration,
+      category,
     });
     await newMovie.save();
 
@@ -34,6 +36,24 @@ export const createMovie = async (req, res, next) => {
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
+  }
+};
+
+export const getOnShowingMovies = async (req, res) => {
+  try {
+    const movies = await MovieModel.find({ category: "on_showing" });
+    res.status(200).json({ ok: true, movies });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getUpcomingMovies = async (req, res) => {
+  try {
+    const movies = await MovieModel.find({ category: "upcoming" });
+    res.status(200).json({ ok: true, movies });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -459,11 +479,21 @@ export const bookTicket = async (req, res, next) => {
 
 export const getMovies = async (req, res, next) => {
   try {
-    const movies = await MovieModel.find();
+    const { page = 1, limit = 5 } = req.query;
+
+    const moviesAdmin = await MovieModel.find()
+    .skip((page - 1) * limit)
+    .limit(parseInt(limit));
+
+    const moviesUser = await MovieModel.find()
+
+    const totalMovies = await MovieModel.countDocuments()
 
     res.status(200).json({
       ok: true,
-      data: movies,
+      dataAdmin: moviesAdmin,
+      dataUser: moviesUser,
+      totalMovies,
       message: "Movies retrieved successfully",
     });
   } catch (error) {
