@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="relative w-full bg-[url(https://tonyreinke.com/wp-content/uploads/2020/01/771cbf11649b35319a9117055f05501b-cinema_zed-stuk.jpg)] bg-cover">
+    <footer className="relative px-[100px] w-full bg-[url(https://tonyreinke.com/wp-content/uploads/2020/01/771cbf11649b35319a9117055f05501b-cinema_zed-stuk.jpg)] bg-cover">
       <div className="absolute top-0 left-0 w-full h-full bg-black/80"></div>
       <div className=" relative w-full p-8 px-20 z-10 text-white">
         <div className="grid justify-between grid-cols-1 gap-4 md:grid-cols-2">

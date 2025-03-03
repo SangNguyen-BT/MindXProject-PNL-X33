@@ -4,6 +4,7 @@ import Banner from "../components/homepage/Banner";
 import MovieList from "../components/homepage/MovieList";
 
 const HomePage = () => {
+  
   return (
     <>
       <Banner className='w-full aspect-[4/3]'/>

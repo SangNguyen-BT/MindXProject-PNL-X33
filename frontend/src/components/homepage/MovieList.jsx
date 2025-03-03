@@ -5,6 +5,7 @@ import axios from "axios";
 import MovieCard from "./MovieCard";
 import {backendUrl} from "../../App"
 
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const MovieList = () => {
   const [user, setUser] = useState(null);
   // const [movies, setMovies] = useState([]);
@@ -86,15 +87,15 @@ const MovieList = () => {
        <Carousel
   responsive={responsive}
   infinite={false}
-  arrows={true}
-  showDots={true}
+  arrows={false}
+  showDots={false}
   autoPlay={false}
   customTransition="all 0.5s"
   transitionDuration={500}
   containerClass="carousel-container"
   itemClass="carousel-item-padding-40-px"
-  renderButtonGroupOutside={true} 
-  customDotListClass="custom-dots"
+  renderButtonGroupOutside={true}
+  customButtonGroup={<CustomButtonGroup />}
 >
             {onShowingMovies.map((Movie) => (
               <div
@@ -109,6 +110,25 @@ const MovieList = () => {
       )}
     </div>
   );
+};
+const CustomButtonGroup = ({ next, previous }) => {
+  return (
+    <>
+
+    <button
+      className="absolute top-1/2 left-[90px] transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full shadow-lg hover:bg-gray-600 transition"
+      onClick={previous}
+    >
+      <FaChevronLeft size={20} />
+    </button>
+    <button
+      className="absolute top-1/2 right-[90px] transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full shadow-lg hover:bg-gray-600 transition"
+      onClick={next}
+    >
+      <FaChevronRight size={20} />
+    </button>
+  </>
+  )
 };
 
 export default MovieList;
