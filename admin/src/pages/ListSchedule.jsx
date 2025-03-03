@@ -31,10 +31,10 @@ const ListSchedule = () => {
     totalPrice: "",
   });
 
-  const handleDeleteSchedule = async (scheduleId) => {
+  const handleDeleteSchedule = async (screenId, scheduleId) => {
     try {
       const response = await axios.delete(
-        `${backendUrl}/api/movie/screens/${selectedSchedule.screenId}/movie-schedules/${scheduleId}`,
+        `${backendUrl}/api/movie/screens/${screenId}/movie-schedules/${scheduleId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -46,6 +46,8 @@ const ListSchedule = () => {
         );
         setSchedules(updatedSchedules);
         toast.success("Schedule deleted successfully");
+
+        fetchSchedules()
       }
     } catch (error) {
       toast.error("Error deleting schedule");
@@ -300,7 +302,7 @@ const ListSchedule = () => {
 
                       <span
                         className="cursor-pointer text-red-500 hover:text-red-700"
-                        onClick={() => handleDeleteSchedule(schedule._id)}
+                        onClick={() => handleDeleteSchedule(schedule.screenId, schedule._id)}
                       >
                         X
                       </span>
