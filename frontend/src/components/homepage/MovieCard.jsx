@@ -7,13 +7,13 @@ import { BsFillStarFill } from "react-icons/bs";
 const MovieCard = (data) => {
   const navigate = useNavigate();
   const { _id, title, genre, rating, portraitImgUrl, duration } = data.Movie;
-  // const { city } = data.user;
+  const { city } = data.user;
 
   return (
     <div
       className="overflow-hidden shadow-lg flex flex-col gap-10 mb-4 relative cursor-pointer transform transition-transform duration-300 w-full group"
       onClick={() => {
-        navigate(`/movies/${_id}`)
+        navigate(`/${city}/movies/${_id}`)
         window.scrollTo({top: 0, behavior: "smooth"});
       }}
     >
