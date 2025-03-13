@@ -10,6 +10,7 @@ import { RiArrowDropDownFill } from "react-icons/ri";
 
 import { backendUrl } from "../App";
 
+import {Responsive} from "./Responsive"
 const Navbar = ({ userName, setUserName }) => {
 
   const [open, setOpen] = useState(false);
@@ -92,26 +93,9 @@ const Navbar = ({ userName, setUserName }) => {
     checkLogin();
     getUser();
   }, []);
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 7
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 5
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 4
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-};
+  
   return (
-    <nav responsive={responsive}>
+    <nav responsive={Responsive}>
       <div className="w-[100%] flex items-center justify-between py-8 fixed top-0 bg-black z-50 gap-5 mx-auto px-[150px] border-b">
         {/* logo section */}
         <div className="text-2xl flex items-center gap-2 uppercase">
@@ -172,7 +156,7 @@ const Navbar = ({ userName, setUserName }) => {
                   clipRule="evenodd"
                 />
               </svg>
-              <input  responsive={responsive}
+              <input  responsive={Responsive}
                 className="w-full bg-transparent placeholder:text-slate-400 text-slate-50 text-sm border
                  border-slate-200 rounded-md pl-10 pr-3 py-2 transition duration-300 ease focus:outline-none
                   focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
@@ -180,7 +164,7 @@ const Navbar = ({ userName, setUserName }) => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <button  responsive={responsive}
+              <button  responsive={Responsive}
                 className="rounded-md bg-red-500 py-2 px-4 
                 border border-transparent text-center text-sm text-white transition-all shadow-md 
                 hover:shadow-lg focus:bg-red-700 focus:shadow-none active:bg-red-700 hover:bg-red-700 active:shadow-none 
@@ -335,7 +319,7 @@ const Navbar = ({ userName, setUserName }) => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button responsive={responsive}
+            <button responsive={Responsive}
               className="rounded-md bg-red-500 py-2 px-4 
                 border border-transparent text-center text-sm text-white transition-all shadow-md 
                 hover:shadow-lg focus:bg-red-700 focus:shadow-none active:bg-red-700 hover:bg-red-700 active:shadow-none 

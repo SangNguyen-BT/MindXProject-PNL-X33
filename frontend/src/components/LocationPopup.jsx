@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import {Responsive} from "./Responsive"
 import { backendUrl } from "../App";
 
 const LocationPopup = ({ setShowLocationPopup }) => {
@@ -43,26 +43,9 @@ const LocationPopup = ({ setShowLocationPopup }) => {
   useEffect(() => {
     getCities();
   }, []);
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 7
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 5
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 4
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-};
+  
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center" responsive={responsive}>
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center" responsive={Responsive}>
       <div className="w-1/3 h-1/3 bg-white rounded-lg flex flex-col justify-center items-center gap-5">
         <select
           className="w-[90%] rounded-full shadow-md border-none outline-none px-5 py-2 text-lg cursor-pointer"

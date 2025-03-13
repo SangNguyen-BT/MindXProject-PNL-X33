@@ -4,7 +4,7 @@ import axios from "axios";
 import { BsFillStarFill } from "react-icons/bs";
 
 import { backendUrl } from "../App";
-
+import {Responsive} from "../components/Responsive"
 const BuyTickets = () => {
   const { movieid, city } = useParams(); // Get params using React Router
 
@@ -86,28 +86,11 @@ const BuyTickets = () => {
   useEffect(() => {
     getTheatres(selectedDate);
   }, [selectedDate]);
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 7
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 5
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 4
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-};
+ 
   return (
     <>
       {movie  && (
-        <div className="bg-gray-200 min-h-screen w-full pb-1" responsive={responsive}>
+        <div className="bg-gray-200 min-h-screen w-full pb-1" responsive={Responsive}>
           <div>
             <div className="bg-gradient-to-r from-black via-transparent to-black min-h-[50vh] p-12 flex justify-between">
               <div className="flex items-center gap-5">

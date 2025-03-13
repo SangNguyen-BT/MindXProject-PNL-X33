@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios"
-
+import {Responsive} from "../components/Responsive"
 import Title from "../components/Title";
 import { backendUrl } from "../App";
 
 const Payment = () => {
   const location = useLocation();
 
-  const { selectedSeats, movie, screen, selectedTime, date, totalPrice } =
+  const { selectedSeats, movie, screen, selectedTime, date, totalPrice, userId } =
     location.state || {};
 
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Payment = () => {
 
   const handlePayNow = async () => {
     try {
-      const response = await axios.post(
+      const bookingResponse = await axios.post(
         `${backendUrl}/api/movie/bookticket`,
         {
           showTime: selectedTime.showTime,
@@ -36,28 +36,55 @@ const Payment = () => {
           movieId: movie._id,
           screenId: screen.screen._id,
           seats: selectedSeats,
-          totalPrice,
+          totalPrice: selectedSeats.reduce((acc, seat) => acc + seat.price, 0),
         },
         {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-          }
+          },
         }
       );
-
-      if (response.data.ok) {
-        toast.success("Payment successful! Booking confirmed.");
-        // Redirect to a confirmation or home page
-        navigate("/", { state: response.data.data });
-      } else {
-        toast.error(response.data.message || "Payment failed.");
+  
+      if (!bookingResponse.data.ok || !bookingResponse.data.data) {
+        toast.error(bookingResponse.data.message || "Booking failed.");
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("Payment failed. Please try again.");
+  
+      //  Lấy `bookingId` từ API
+      const bookingId = bookingResponse.data.data._id;
+      if (!bookingId) {
+        toast.error("Error: Unable to get bookingId.");
+        return;
+      }
+
+      //  Gọi API tạo thanh toán MOMO
+      const paymentResponse = await axios.post(
+        `${backendUrl}/api/momo/createPayment`,
+        {
+          amount: totalPrice,
+          orderInfo: `Thanh toán vé xem phim ${movie.title}`,
+          userId: bookingResponse.data.data.userId,
+          bookingId: bookingId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (paymentResponse.data && paymentResponse.data.payUrl) {
+        window.location.href = paymentResponse.data.payUrl;
+      } else {
+        toast.error("Error creating payment.");
+      }
+    } catch (error) {
+      console.error("Error while booking or creating payment:", error);
+      toast.error("An error occurred, please try again.");
     }
   };
+  
 
   const getUser = async () => {
     try {
@@ -77,26 +104,9 @@ const Payment = () => {
   useEffect(() => {
     getUser()
   }, [])
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 7
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 5
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 4
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-  };
+  
   return (
-    <div className="container mx-auto  px-[200px] " responsive={responsive}>
+    <div className="container mx-auto  px-[200px] " responsive={Responsive}>
       <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-12 border-t pt-8 lg:pt-14">
         {/* Left side - Customer Information */}
         <div className="flex flex-col gap-6 w-full lg:w-1/2">
