@@ -3,15 +3,17 @@ import dotenv from "dotenv";
 import cors from "cors"
 
 import connectDB from "./config/mongodb.js"
-
 import accountRoute from "./routes/accountRoute.js"
 import movieRoute from "./routes/movieRoute.js"
 import adminRoute from "./routes/adminRoute.js"
 import imageRoute from "./routes/imageRoute.js"
+import paymentRoute from "./routes/paymentRoute.js"
+
 
 // App Config
 dotenv.config();
 connectDB()
+
 const app = express();
 
 // middleware
@@ -37,6 +39,7 @@ app.use("/api/auth", accountRoute)
 app.use("/admin", adminRoute)
 app.use("/api/movie", movieRoute)
 app.use("/image", imageRoute)
+app.use("/api/momo",paymentRoute)
 
 app.get("/", (req, res) => {
   res.send("API Working")

@@ -10,6 +10,8 @@ import { Pagination } from "swiper/modules";
 
 import { backendUrl } from "../App";
 
+import {Responsive} from "../components/Responsive"
+
 import MovieList from "../components/homepage/MovieList";
 import CelebCard from "../components/detailmoviepage/CelebCard";
 
@@ -42,28 +44,11 @@ const MovieDetail = () => {
   useEffect(() => {
     getMovie();
   }, [movieid]);
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 7
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 5
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 4
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-};
+ 
   return (
     <>
       {movie && (
-        <div className="flex flex-col px-[200px]" responsive={responsive}>
+        <div className="flex flex-col px-[200px]" responsive={Responsive}>
           <div
             className="bg-no-repeat bg-cover bg-center"
             style={{
@@ -109,7 +94,7 @@ const MovieDetail = () => {
             </div>
           </div>
 
-          <div className="px-12 pt-5 flex flex-col gap-3 w-full" responsive={responsive}>
+          <div className="px-12 pt-5 flex flex-col gap-3 w-full" responsive={Responsive}>
             <h1 className="text-2xl font-semibold text-blue-700">
               About the Movie
             </h1>
@@ -159,7 +144,7 @@ const MovieDetail = () => {
             )}
 
             <div className="w-full h-[1px] bg-gray-200 my-8"></div>
-            <h1 className="text-2xl font-semibold text-blue-700" responsive={responsive}>
+            <h1 className="text-2xl font-semibold text-blue-700" responsive={Responsive}>
               Your might also like
             </h1>
             <MovieList />

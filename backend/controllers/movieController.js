@@ -480,6 +480,8 @@ export const bookTicket = async (req, res, next) => {
       });
     }
 
+    const totalPriceVND = Math.round(totalPrice * 24000);
+
     const newBooking = new BookingModel({
       userId: req.userId,
       movieId,
@@ -490,7 +492,7 @@ export const bookTicket = async (req, res, next) => {
       showTime,
       showDate,
       seats,
-      totalPrice,
+      totalPrice : totalPriceVND,
       paymentId,
       paymentType,
     });

@@ -3,6 +3,8 @@ import axios from "axios";
 import { backendUrl } from "../App";
 import ProfileNav from "../components/ProfileNav";
 
+import { Responsive } from "./Responsive";
+
 const AccountInfo = () => {
     const [user, setUser] = useState({
         name: "",
@@ -79,7 +81,9 @@ const AccountInfo = () => {
     return (
         <div>
             <ProfileNav />
-            <div className="flex justify-end min-h-screen bg-gradient-to-b from-[#0B132B] to-[#1C2541] p-6">
+
+            <div className="flex justify-end min-h-screen bg-gradient-to-b from-[#0B132B] to-[#1C2541] p-6" responsive={Responsive}>
+
                 <div className="w-3/4 bg-white shadow-lg rounded-lg p-8 ml-6">
                     {/* CUSTOMER INFO */}
                     <h2 className="text-3xl font-extrabold text-gray-900 mb-4">CUSTOMER INFO</h2>

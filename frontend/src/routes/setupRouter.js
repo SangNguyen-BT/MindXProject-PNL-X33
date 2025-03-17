@@ -30,6 +30,6 @@ const setupRouter = [
   { url: "/accountInfo", component: AccountInfo},
   { url : "/tickets", component : Tickets},
   { url : "/termsCondition", component : TermConditions},
-  { url : "/privacy", component : Privacy}
+  { url : "/privacy", component : Privacy},
 ];
 export { setupRouter };
