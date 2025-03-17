@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 import ScrollTopTop from "./components/detailmoviepage/ScrollToTop";
 
 import { Responsive } from "./components/Responsive";
+import TicketInfo from './components/ticket/TicketInfo';
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             const Page = route.component;
             return <Route path={route.url} key={index} element={<Page setUserName={setUserName} />} />;
           })}
+          <Route path="/ticket-info" element={<TicketInfo />} />
         </Routes>
         <ScrollTopTop responsive={Responsive}/>
       </main>
