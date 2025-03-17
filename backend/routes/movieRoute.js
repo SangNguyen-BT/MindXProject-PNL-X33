@@ -18,6 +18,7 @@ import {
   getScreensByMoviesSchedule,
   getUpcomingMovies,
   getUserBookings,
+  removeBooking,
   removeMovie,
   removeSchedule,
   removeScreen,
@@ -73,5 +74,6 @@ Router.route("/getuserbookings").get(authToken, getUserBookings);
 Router.route("/getavailabledates/:city/:movieid").get(getAvailableDates);
 // Router.route("/search/:keyword").get(authToken, getMovieBySearch)
 Router.route("/search/:keyword").get(getMovieBySearch)
+Router.route("/removebooking/:bookingId").delete(authToken, removeBooking)
 
 export default Router;

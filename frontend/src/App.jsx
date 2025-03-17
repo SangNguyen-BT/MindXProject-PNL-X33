@@ -9,44 +9,28 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import ScrollTopTop from "./components/detailmoviepage/ScrollToTop";
 
+import { Responsive } from "./components/Responsive";
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 
 function App() {
-  const [userName, setUserName] = useState(null)
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 7
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 5
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 4
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-};
+  const [userName, setUserName] = useState(null);
 
+ 
   return (
-    <>
-      <div className="bg-black relative pt-20">
-        <Navbar userName={userName} setUserName={setUserName} responsive={responsive}/>
-        <ToastContainer responsive={responsive} />
+    <div className="flex flex-col min-h-screen bg-black">
+      <Navbar userName={userName} setUserName={setUserName} responsive={Responsive} />
+      <main className="flex-1 pt-20">
+        <ToastContainer responsive={Responsive} />
         <Routes>
           {setupRouter.map((route, index) => {
             const Page = route.component;
-            return <Route path={route.url} key={index} element={<Page setUserName={setUserName}/>} responsive={responsive}/>;
+            return <Route path={route.url} key={index} element={<Page setUserName={setUserName} />} />;
           })}
         </Routes>
-        <ScrollTopTop responsive={responsive}/>
-      <Footer responsive={responsive} />
-      </div>
-    </>
+        <ScrollTopTop responsive={Responsive}/>
+      </main>
+      <Footer responsive={Responsive} />
+    </div>
   );
 }
 

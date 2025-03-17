@@ -364,6 +364,41 @@ export const getAllBookings = async (req, res, next) => {
   }
 };
 
+export const removeBooking = async (req, res, next) => {
+  try {
+    const {bookingId} = req.params
+
+    const booking = await BookingModel.findById(bookingId)
+    if (!booking) {
+      return res.status(404).json({message: "No Booking found"})
+    }
+
+    const { seats, screenId } = booking;
+
+    const screen = await ScreenModel.findById(screenId)
+    if (!screen) {
+      return res.status(404).json({ message: "Screen not found" });
+    }
+
+    screen.movieSchedules.forEach((schedule) => {
+      if (schedule.showTime === booking.showTime && schedule.showDate.getTime() === booking.showDate.getTime()) {
+        // Xóa ghế trong notAvailableSeats
+        schedule.notAvailableSeats = schedule.notAvailableSeats.filter(
+          (seat) => !seats.some((s) => s.row === seat.row && s.col === seat.col && s.seat_id === seat.seat_id)
+        );
+      }
+    });
+
+    await screen.save();
+
+    await BookingModel.findByIdAndDelete(bookingId);
+
+    return res.status(200).json({ message: "Ticket cancelled successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Server Error", error: error.message });
+  }
+}
+
 export const getScreensByCity = async (req, res, next) => {
   //:city
   const city = req.params.city;
@@ -445,6 +480,8 @@ export const bookTicket = async (req, res, next) => {
       });
     }
 
+    const totalPriceVND = Math.round(totalPrice * 24000);
+
     const newBooking = new BookingModel({
       userId: req.userId,
       movieId,
@@ -455,7 +492,7 @@ export const bookTicket = async (req, res, next) => {
       showTime,
       showDate,
       seats,
-      totalPrice,
+      totalPrice : totalPriceVND,
       paymentId,
       paymentType,
     });
@@ -485,7 +522,7 @@ export const getMovies = async (req, res, next) => {
     .skip((page - 1) * limit)
     .limit(parseInt(limit));
 
-    const moviesUser = await MovieModel.find()
+    const moviesUser = await MovieModel.find({}, "_id title")
 
     const totalMovies = await MovieModel.countDocuments()
 
@@ -620,6 +657,8 @@ export const getUserBookings = async (req, res, next) => {
       bookings.push(bookingObj);
     }
 
+    bookings = bookings.filter((b) => b !== null);
+    
     res.status(200).json({
       ok: true,
       message: "User bookings retrieved successfully",

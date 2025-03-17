@@ -5,6 +5,8 @@ import {toast} from "react-toastify"
 
 import {backendUrl} from "../App"
 
+import {Responsive} from "../components/Responsive"
+
 const Login = ({setUserName}) => {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -74,26 +76,9 @@ const Login = ({setUserName}) => {
       }
     }
   };
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 7
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 5
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 4
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-};
+  
   return (
-    <form  responsive={responsive}
+    <form  responsive={Responsive}
       onSubmit={onSubmitHandle}
       className="flex flex-col items-center w-[90%] sm:max-w-96 m-auto my-14 gap-4 text-gray-400 "
     >
