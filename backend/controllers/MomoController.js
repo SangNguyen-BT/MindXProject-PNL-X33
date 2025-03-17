@@ -2,6 +2,7 @@ import crypto from "crypto";
 import axios from "axios";
 import PaymentModel from "../model/Payment.js";
 import MomoConfig from "../config/MomoConfig.js";
+import BookingModel from "../model/Booking.js";
 
 export const createPayment = async (req, res) => {
   try {
@@ -24,12 +25,12 @@ export const createPayment = async (req, res) => {
 
     const requestId = `${MomoConfig.partnerCode}_${Date.now()}`;
     const orderId = requestId;
-    const extraData = "";
+    const extraData = JSON.stringify({ bookingId });
 
     const rawSignature = 
       `accessKey=${MomoConfig.accessKey}&amount=${amountVND}&extraData=${extraData}` +
       `&ipnUrl=${MomoConfig.ipnUrl}&orderId=${orderId}&orderInfo=${orderInfo}` +
-      `&partnerCode=${MomoConfig.partnerCode}&redirectUrl=${MomoConfig.redirectUrl}` +
+      `&partnerCode=${MomoConfig.partnerCode}&redirectUrl=${MomoConfig.redirectUrl}?bookingId=${bookingId}` +
       `&requestId=${requestId}&requestType=captureWallet`;
 
     const signature = crypto.createHmac("sha256", MomoConfig.secretKey)
@@ -43,10 +44,10 @@ export const createPayment = async (req, res) => {
       amount: amountVND,
       orderId,
       orderInfo,
-      redirectUrl: MomoConfig.redirectUrl,
+      redirectUrl: `${MomoConfig.redirectUrl}?bookingId=${bookingId}`,
       ipnUrl: MomoConfig.ipnUrl,
       requestType: "captureWallet",
-      extraData,
+      extraData: JSON.stringify({ bookingId }),
       signature,
       lang: "vi",
     }

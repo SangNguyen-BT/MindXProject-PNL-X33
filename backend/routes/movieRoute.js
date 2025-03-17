@@ -29,6 +29,7 @@ import {
 
 import authAdminToken from "../middleware/checkAdminToken.js";
 import authToken from "../middleware/checkAuthToken.js";
+import BookingModel from "../model/Booking.js";
 
 const Router = express.Router();
 
@@ -75,5 +76,17 @@ Router.route("/getavailabledates/:city/:movieid").get(getAvailableDates);
 // Router.route("/search/:keyword").get(authToken, getMovieBySearch)
 Router.route("/search/:keyword").get(getMovieBySearch)
 Router.route("/removebooking/:bookingId").delete(authToken, removeBooking)
+
+Router.route("/booking/:id").get(async (req, res) => {
+  try {
+    const booking = await BookingModel.findById(req.params.id);
+    if (!booking) {
+      return res.status(404).json({ ok: false, message: "Không tìm thấy vé" });
+    }
+    res.json({ ok: true, data: booking });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: error.message });
+  }
+});
 
 export default Router;
