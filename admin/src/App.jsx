@@ -15,6 +15,7 @@ import CreateCeleb from "./pages/CreateCeleb";
 import ListCinema from "./pages/ListCinema";
 import ListSchedule from "./pages/ListSchedule";
 import ListBooking from "./pages/ListBooking";
+import ListUser from "./pages/ListUser"
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -45,7 +46,8 @@ function App() {
                 <Route path="/listmovies" element={<ListMovies />} />
                 <Route path="/listcinemas" element={<ListCinema />} />
                 <Route path="/listschedules" element={<ListSchedule />} />
-                <Route path="/booking" element={<ListBooking />} />
+                <Route path="/bookings" element={<ListBooking />} />
+                <Route path="/users" element={<ListUser/>} />
               </Routes>
             </div>
           </div>

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 import { backendUrl } from "../App";
 
 const CreateCeleb = () => {
+  const [movies, setMovies] = useState([]);
+
   const [celeb, setCeleb] = useState({
     celebName: "",
     celebRole: "",
@@ -37,7 +39,8 @@ const CreateCeleb = () => {
       const formData = new FormData();
       formData.append("myimage", image);
 
-      const response = await axios.post(`${backendUrl}/image/uploadimage`,
+      const response = await axios.post(
+        `${backendUrl}/image/uploadimage`,
         formData
       );
 
@@ -78,14 +81,16 @@ const CreateCeleb = () => {
         movieId: celeb.movieId,
       };
 
-      const response = await axios.post(`${backendUrl}/api/movie/addceleb`, 
+      const response = await axios.post(
+        `${backendUrl}/api/movie/addceleb`,
         newCeleb,
         {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       if (response.data.ok) {
         toast.success("Celebrity added successfully!");
@@ -105,6 +110,23 @@ const CreateCeleb = () => {
       toast.error("An error occurred");
     }
   };
+
+  const fetchMovies = async () => {
+    try {
+      const response = await axios.get(`${backendUrl}/api/movie/movies`);
+      if (response.data.ok) {
+        setMovies(response.data.dataUser);
+      } else {
+        toast.error("Failed to fetch movies");
+      }
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMovies();
+  }, []);
 
   return (
     <div className="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-md">
@@ -136,15 +158,20 @@ const CreateCeleb = () => {
         </div>
 
         <div>
-          <label className="block mb-1 font-medium">Movie ID</label>
-          <input
-            type="text"
+          <label className="block mb-1 font-medium">Select Movie</label>
+          <select
             name="movieId"
-            placeholder="Enter movie ID"
             value={celeb.movieId}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
-          />
+          >
+            <option value="">Select a movie</option>
+            {movies.map((movie) => (
+              <option key={movie._id} value={movie._id}>
+                {movie.title}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>

@@ -20,11 +20,11 @@ const CreateSchedule = () => {
 
   const getMovies = async () => {
     try {
-      const response = await axios.get(`${backendUrl}/api/movie/movies`);
+      const response = await axios.get(`${backendUrl}/api/movie/onshowing`);
 
       if (response.data.ok) {
-        setMovies(response.data.dataAdmin);
-        console.log(response.data.dataAdmin);
+        setMovies(response.data.movies); 
+        console.log(response.data.movies);
       }else {
         toast.error("Failed to fetch movies");
       }
