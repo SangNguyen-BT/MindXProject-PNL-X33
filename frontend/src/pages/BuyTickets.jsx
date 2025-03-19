@@ -81,6 +81,12 @@ const BuyTickets = () => {
     getMovie();
     getAvailableDates();
   }, []);
+  // Auto select date
+  useEffect(() => {
+    if (availableDates.length > 0) {
+      setSelectedDate(availableDates[0]); 
+    }
+  }, [availableDates]);
 
   // Get theaters when the selected date changes
   useEffect(() => {
