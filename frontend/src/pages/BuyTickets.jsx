@@ -92,7 +92,6 @@ const BuyTickets = () => {
   useEffect(() => {
     getTheatres(selectedDate);
   }, [selectedDate]);
- 
   return (
     <>
       {movie  && (
