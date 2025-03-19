@@ -95,12 +95,12 @@ const BuyTickets = () => {
   return (
     <>
       {movie  && (
-        <div className="bg-gray-200 min-h-screen w-full pb-1" responsive={Responsive}>
+        <div className="bg-gray-200 min-h-screen w-full pb-1 " responsive={Responsive}>
           <div>
             <div className="bg-gradient-to-r from-black via-transparent to-black min-h-[50vh] p-12 flex justify-between">
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-5 px-[140px]">
                 <div
-                  className="w-[300px] h-[400px] rounded-lg overflow-hidden relative bg-no-repeat bg-cover bg-center"
+                  className="w-[300px] h-[400px] rounded-lg overflow-hidden relative bg-no-repeat bg-cover bg-center "
                   style={{
                     backgroundImage: `url(${movie.portraitImgUrl})`,
                   }}
@@ -128,7 +128,7 @@ const BuyTickets = () => {
             </div>
 
             {/* SHOW DATE */}
-            <div className="flex justify-center space-x-4 my-5">
+            <div className="flex justify-center space-x-4 my-5 ">
               {availableDates.length > 0 ? (
                 availableDates.map((date, index) => (
                   <button
@@ -157,7 +157,7 @@ const BuyTickets = () => {
           </div>
 
           {theatres && theatres.length > 0 && (
-            <div className="w-11/12 mx-auto my-5 shadow-lg bg-white p-5 rounded-lg">
+            <div className="w-3/4 mx-auto my-5 shadow-lg bg-white p-5 rounded-lg px-[140px] ">
               {theatres.map((screen, index) => {
                 // Lọc các lịch chiếu theo ngày được chọn
                 const filteredSchedules = screen.movieSchedules.filter(
@@ -180,7 +180,7 @@ const BuyTickets = () => {
 
                 return (
                   <div
-                    className="flex justify-between items-center my-2 py-3 border-b border-gray-200 last:border-none cursor-pointer transition-all duration-300"
+                    className="flex justify-between items-center my-2 py-3 border-b  border-gray-200 last:border-none cursor-pointer transition-all duration-300 "
                     key={screen._id}
                   >
                     <div className ="w-1/3">
