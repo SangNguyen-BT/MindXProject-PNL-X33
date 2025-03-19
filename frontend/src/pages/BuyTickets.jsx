@@ -157,7 +157,7 @@ const BuyTickets = () => {
           </div>
 
           {theatres && theatres.length > 0 && (
-            <div className="w-3/4 mx-auto my-5 shadow-lg bg-white p-5 rounded-lg px-[140px] ">
+            <div className="w-3/4 mx-auto my-5 shadow-lg bg-white p-5 rounded-lg ">
               {theatres.map((screen, index) => {
                 // Lọc các lịch chiếu theo ngày được chọn
                 const filteredSchedules = screen.movieSchedules.filter(
