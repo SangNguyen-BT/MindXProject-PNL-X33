@@ -5,7 +5,7 @@ import { BsFillStarFill } from "react-icons/bs";
 
 import { backendUrl } from "../App";
 
-import {Responsive} from "../components/Responsive"
+import { Responsive } from "../components/Responsive";
 
 const BuyTickets = () => {
   const { movieid, city } = useParams(); // Get params using React Router
@@ -87,7 +87,7 @@ const BuyTickets = () => {
   // Auto select date
   useEffect(() => {
     if (availableDates.length > 0) {
-      setSelectedDate(availableDates[0]); 
+      setSelectedDate(availableDates[0]);
     }
   }, [availableDates]);
 
@@ -95,11 +95,14 @@ const BuyTickets = () => {
   useEffect(() => {
     getTheatres(selectedDate);
   }, [selectedDate]);
- 
+
   return (
     <>
-      {movie  && (
-        <div className="bg-gray-200 min-h-screen w-full pb-1" responsive={Responsive}>
+      {movie && (
+        <div
+          className="bg-gray-200 min-h-screen w-full pb-1"
+          responsive={Responsive}
+        >
           <div>
             <div className="bg-gradient-to-r from-black via-transparent to-black min-h-[50vh] p-12 flex justify-between">
               <div className="flex items-center gap-5 px-[140px]">
@@ -187,7 +190,7 @@ const BuyTickets = () => {
                     className="flex justify-between items-center my-2 py-3 border-b border-gray-200 last:border-none cursor-pointer transition-all duration-300"
                     key={screen._id}
                   >
-                    <div className ="w-1/3">
+                    <div className="w-1/3">
                       <h3 className="text-lg font-semibold">
                         {screen.name} - {screen.screenType}
                       </h3>
@@ -201,15 +204,33 @@ const BuyTickets = () => {
                       {filteredSchedules.length > 0 && (
                         <div className="text-sm text-center">
                           <h2 className="font-semibold">Show Times:</h2>
+
                           <div className="flex flex-wrap gap-2 justify-center">
-                            {filteredSchedules.map((schedule, index) => (
-                              <span
-                                key={index}
-                                className="py-1 px-3 bg-gray-100 rounded-full text-gray-800 shadow-sm"
-                              >
-                                {schedule.showTime}
-                              </span>
-                            ))}
+                            {filteredSchedules.map((schedule, index) => {
+                              const totalSeats = screen.seats.reduce((sum, seatType) => {
+                                  return (
+                                    sum + seatType.rows.reduce((rowSum, row) =>
+                                        rowSum + row.cols.reduce((colSum, col) => colSum + col.seats.length, 0),0)
+                                  );
+                                },0);
+
+                              const availableSeats = totalSeats - schedule.notAvailableSeats.length;
+
+                              return (
+                                <div
+                                  key={index}
+                                  className="flex flex-col items-center"
+                                >
+                                  <span className="py-1 px-3 bg-gray-100 rounded-full text-gray-800 shadow-sm">
+                                    {schedule.showTime}
+                                  </span>
+
+                                  <p className="text-xs font-bold text-green-400 px-4 pt-2">
+                                    {availableSeats}/160 seats
+                                  </p>
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       )}

@@ -189,9 +189,9 @@ const ListSchedule = () => {
       <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <label
           htmlFor="movieFilter"
-          className="block mb-2 text-sm font-medium text-gray-600"
+          className="block mb-2 text-xl font-bold text-gray-600"
         >
-          Filter by Movie Name
+          Filter by Movie
         </label>
         <select
           id="movieFilter"
@@ -211,9 +211,9 @@ const ListSchedule = () => {
       <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <label
           htmlFor="screenFilter"
-          className="block mb-2 text-sm font-medium text-gray-600"
+          className="block mb-2 text-xl font-bold text-gray-600"
         >
-          Filter by Screen Name
+          Filter by Cinema
         </label>
         <select
           id="screenFilter"
@@ -221,7 +221,7 @@ const ListSchedule = () => {
           onChange={(e) => handleFilterChange(selectedMovie, e.target.value)}
           className="p-2 border border-gray-300 rounded-md sm:w-64"
         >
-          <option value="">All Screens</option>
+          <option value="">All Cinemas</option>
           {screenNames.map((screen, index) => (
             <option key={index} value={screen}>
               {screen}

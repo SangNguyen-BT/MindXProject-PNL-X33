@@ -147,7 +147,7 @@ const ListMovies = () => {
       if (response.data.ok) {
         toast.success("Movie updated successfully!");
         closeModal();
-        fetchList();
+        fetchList(currentPage);
       } else {
         toast.error(response.data.message);
       }
