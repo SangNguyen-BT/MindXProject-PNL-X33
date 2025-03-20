@@ -10,10 +10,18 @@ export const adminRegister = async (req, res, next) => {
     const { name, email, password} = req.body;
 
     if (!name || !email || !password)
-      return res.status(401).json("Require name, email, password");
+      return res.status(400).json({ message: "Require name, email, and password", success: false });
+
+    name = name.trim();
+    email = email.trim().toLowerCase();
+    password = password.trim();
+
+    if (/\s/.test(password)) {
+      return res.status(400).json({ message: "Password should not contain spaces", success: false });
+    }
 
     const existedAdmin = await AdminModel.findOne({ email });
-    if (existedAdmin) return res.status(400).json("This Email is already registered");
+    if (existedAdmin) return res.status(400).json({ message: "This email is already registered", success: false });
 
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);

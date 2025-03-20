@@ -230,6 +230,7 @@ try {
               setSchedule({ ...schedule, showDate: e.target.value })
             }
             className="p-2 border border-gray-300 rounded-md w-full sm:w-64"
+            min={new Date().toISOString().split('T')[0]}
           />
         </div>
       </div>

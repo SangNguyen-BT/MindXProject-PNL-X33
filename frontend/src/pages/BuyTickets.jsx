@@ -84,6 +84,13 @@ const BuyTickets = () => {
     getAvailableDates();
   }, []);
 
+  // Auto select date
+  useEffect(() => {
+    if (availableDates.length > 0) {
+      setSelectedDate(availableDates[0]); 
+    }
+  }, [availableDates]);
+
   // Get theaters when the selected date changes
   useEffect(() => {
     getTheatres(selectedDate);
@@ -95,7 +102,7 @@ const BuyTickets = () => {
         <div className="bg-gray-200 min-h-screen w-full pb-1" responsive={Responsive}>
           <div>
             <div className="bg-gradient-to-r from-black via-transparent to-black min-h-[50vh] p-12 flex justify-between">
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-5 px-[140px]">
                 <div
                   className="w-[300px] h-[400px] rounded-lg overflow-hidden relative bg-no-repeat bg-cover bg-center"
                   style={{
@@ -106,7 +113,7 @@ const BuyTickets = () => {
                     In cinemas
                   </p>
                 </div>
-                <div className="flex flex-col text-white gap-3">
+                <div className="flex flex-col text-black gap-3">
                   <p className="text-4xl font-semibold">{movie.title}</p>
                   <p className="text-3xl font-semibold flex items-center gap-1">
                     <BsFillStarFill className="text-yellow-500 mb-2" />
@@ -116,7 +123,7 @@ const BuyTickets = () => {
                     <i className="fa fa-clock text-yellow-500 px-2"></i>
                     {movie.duration} mins
                   </p>
-                  <p className="text-lg font-medium mb-4 text-gray-300">
+                  <p className="text-lg font-medium mb-4 text-black">
                     <i className="fa fa-tag text-yellow-500 px-2"></i>
                     {movie.genre.join(", ")}
                   </p>
@@ -154,7 +161,7 @@ const BuyTickets = () => {
           </div>
 
           {theatres && theatres.length > 0 && (
-            <div className="w-11/12 mx-auto my-5 shadow-lg bg-white p-5 rounded-lg">
+            <div className="w-3/4 mx-auto my-5 shadow-lg bg-white p-5 rounded-lg">
               {theatres.map((screen, index) => {
                 // Lọc các lịch chiếu theo ngày được chọn
                 const filteredSchedules = screen.movieSchedules.filter(

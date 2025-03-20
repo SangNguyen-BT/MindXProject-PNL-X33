@@ -51,7 +51,7 @@ const ListBooking = () => {
 
   return (
     <div className="p-5">
-      <h2 className="text-xl font-bold mb-5">Bookings Management</h2>
+      <h2 className="text-xl font-bold mb-5 text-center">Bookings Management</h2>
 
       {bookings.length === 0 ? (
         <div className="text-center text-gray-500 text-lg">
@@ -65,7 +65,7 @@ const ListBooking = () => {
         className="flex justify-between items-center cursor-pointer"
         onClick={() => toggleChart("revenue")}
       >
-        <h3 className="font-bold text-lg">Revenue Chart By Date</h3>
+        <h3 className="font-bold text-lg text-red-500">Revenue Chart By Date</h3>
         {showCharts.revenue ? (
           <ChevronUpIcon className="w-5 h-5" />
         ) : (
@@ -84,7 +84,7 @@ const ListBooking = () => {
         className="flex justify-between items-center cursor-pointer"
         onClick={() => toggleChart("movieTickets")}
       >
-        <h3 className="font-bold text-lg">Movie Ticket Chart</h3>
+        <h3 className="font-bold text-lg text-yellow-500">Movie Ticket Chart</h3>
         {showCharts.movieTickets ? (
           <ChevronUpIcon className="w-5 h-5" />
         ) : (
@@ -104,7 +104,7 @@ const ListBooking = () => {
         className="flex justify-between items-center cursor-pointer"
         onClick={() => toggleChart("cinemaTickets")}
       >
-        <h3 className="font-bold text-lg">Cinema Chart</h3>
+        <h3 className="font-bold text-lg text-blue-500">Cinema Chart</h3>
         {showCharts.cinemaTickets ? (
           <ChevronUpIcon className="w-5 h-5" />
         ) : (
@@ -123,7 +123,7 @@ const ListBooking = () => {
         className="flex justify-between items-center cursor-pointer"
         onClick={() => toggleChart("userBookings")}
       >
-        <h3 className="font-bold text-lg">User Booking Statistics</h3>
+        <h3 className="font-bold text-lg text-green-500">User Booking Statistics</h3>
         {showCharts.userBookings ? (
           <ChevronUpIcon className="w-5 h-5" />
         ) : (
@@ -194,7 +194,7 @@ const ListBooking = () => {
                     {booking.seats.map((seat) => seat.seat_id).join(", ")}
                   </td>
                   <td className="border border-gray-400 px-4 py-2">
-                    VND{booking.totalPrice}
+                    {new Intl.NumberFormat('vi-VN').format(booking.totalPrice)} VND
                   </td>
                   <td className="border border-gray-400 px-4 py-2">
                     {new Date(booking.showDate).toLocaleDateString("en-US", {

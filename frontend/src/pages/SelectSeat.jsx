@@ -92,7 +92,14 @@ const SelectSeat = () => {
 
     return (
       <div className="max-w-full mx-auto px-4">
-        {screen.screen.seats.map((seatType, index) => (
+           {/* SCREEN ICON */}
+          <div className="flex justify-center items-center my-14">
+            <div className="relative w-full sm:w-96 h-18 bg-gradient-to-t from-gray-800 to-transparent rounded-b-full text-white text-center font-bold text-sm flex justify-center items-center">
+              SCREEN
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4/5 h-1 bg-white"></div>
+            </div>
+          </div>
+        {screen.screen.seats .slice().reverse().map((seatType, index) => (
           <div className="bg-white p-4 m-4" key={index}>
             <h2 className="text-base font-normal mb-2 border border-gray-300 px-5 py-2 rounded-full">
               {seatType.type} - ${seatType.price}
@@ -100,9 +107,9 @@ const SelectSeat = () => {
 
             <div>
               {/* ROW */}
-              {seatType.rows.map((row, rowIndex) => (
+              {seatType.rows.slice().reverse().map((row, rowIndex) => ( 
                 <div className="flex gap-5 items-center mb-4" key={rowIndex}>
-                  <p className="w-max-content font-semibold text-sm bg-red-500 text-white w-7 h-7 flex justify-center items-center rounded-full leading-none">
+                  <p className="w-max-content font-semibold text-sm bg-gray-900 text-white w-7 h-7 flex justify-center items-center rounded-full leading-none">
                     {row.rowname}
                   </p>
 
@@ -197,7 +204,7 @@ const SelectSeat = () => {
     <div className="bg-gray-200 min-h-screen w-full">
       {movie && screen && (
         <div className="bg-white">
-          <div className="bg-col2 p-4">
+          <div className="bg-col2 pt-20 px-[150px]">
             <h1 className="text-black text-2xl font-semibold py-6">
               {movie.title} - {screen.screen.name}
             </h1>
@@ -246,14 +253,6 @@ const SelectSeat = () => {
           </div>
 
           {generateSeatLayout()}
-
-          {/* SCREEN ICON */}
-          <div className="flex justify-center items-center my-14">
-            <div className="relative w-full sm:w-96 h-18 bg-gradient-to-t from-gray-800 to-transparent rounded-b-full text-white text-center font-bold text-sm flex justify-center items-center">
-              SCREEN
-              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4/5 h-1 bg-white"></div>
-            </div>
-          </div>
 
           {/* BOOK TICKET */}
           <div className="flex items-center justify-between bg-white p-5 my-5 rounded-xl shadow-sm w-[300px]">

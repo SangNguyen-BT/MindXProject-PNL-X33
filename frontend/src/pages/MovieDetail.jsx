@@ -11,8 +11,6 @@ import { Pagination } from "swiper/modules";
 import { backendUrl } from "../App";
 
 import {Responsive} from "../components/Responsive"
-
-import MovieList from "../components/homepage/MovieList";
 import CelebCard from "../components/detailmoviepage/CelebCard";
 
 const MovieDetail = () => {
@@ -48,14 +46,14 @@ const MovieDetail = () => {
   return (
     <>
       {movie && (
-        <div className="flex flex-col px-[200px]" responsive={Responsive}>
+        <div className="flex flex-col px-[140px]" responsive={Responsive}>
           <div
-            className="bg-no-repeat bg-cover bg-center"
+            className="bg-no-repeat bg-contain bg-right"
             style={{
-              backgroundImage: `url(${movie.portraitImgUrl})`,
+              backgroundImage: `url(${movie.landscapeImgUrl})`,
             }}
           >
-            <div className="bg-gradient-to-r from-black via-transparent to-black min-h-[50vh] p-12 flex justify-between">
+            <div className="bg-gradient-to-r from-black via-transparent p-12 flex justify-between">
               <div className="flex items-center gap-5">
                 <div
                   className="w-[300px] h-[450px] rounded-lg overflow-hidden relative bg-no-repeat bg-cover bg-center"
@@ -144,10 +142,7 @@ const MovieDetail = () => {
             )}
 
             <div className="w-full h-[1px] bg-gray-200 my-8"></div>
-            <h1 className="text-2xl font-semibold text-blue-700" responsive={Responsive}>
-              Your might also like
-            </h1>
-            <MovieList />
+        
           </div>
         </div>
       )}

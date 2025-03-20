@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios"
 
@@ -13,8 +13,6 @@ const Payment = () => {
 
   const { selectedSeats, movie, screen, selectedTime, date, totalPrice, userId } =
     location.state || {};
-
-  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     name: "",
@@ -154,7 +152,7 @@ const Payment = () => {
               </li>
               <li className="text-white flex">
                 <strong className="text-yellow-500 w-28">Cinema:</strong>
-                <span>{screen?.screen?.name}</span>
+                <span>{screen?.screen?.name} - {screen?.screen?.location}</span>
               </li>
               <li className="text-white flex">
                 <strong className="text-yellow-500 w-28">Showtime:</strong>

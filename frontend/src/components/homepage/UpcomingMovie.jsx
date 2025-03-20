@@ -1,99 +1,115 @@
-// import { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { Box, Typography, Grid, Card, CardMedia, CardContent } from '@mui/material';
-// import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import axios from "axios";
+import MovieCard from "./MovieCard";
+import { backendUrl } from "../../App";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-// const API_URL = 'http://localhost:5173'; // hoặc URL của backend của bạn
+const UpcomingMovie = () => {
+  const [user, setUser] = useState(null);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
 
-// const MovieSection = ({ title, movies }) => (
-//   <Box sx={{ mb: 4 }}>
-//     <h1 className="text-white text-center font-bold sm:text-3xl md:text-4xl lg:text-4xl tracking-wide uppercase my-4 px-2">
-//       {title}
-//     </h1>
-//     <Grid container spacing={2}>
-//       {movies.map((movie) => (
-//         <Grid item xs={12} sm={6} md={3} key={movie._id}>
-//           <Card sx={{ height: '100%' }}>
-//             <CardMedia
-//               component="img"
-//               height="300"
-//               image={movie.poster || movie.portraitImgUrl}
-//               alt={movie.title}
-//               sx={{ objectFit: 'cover' }}
-//             />
-//             <CardContent>
-//               <Typography variant="h6" noWrap>
-//                 {movie.title}
-//               </Typography>
-//               <Typography variant="body2" color="text.secondary">
-//                 Thời lượng: {movie.duration} phút
-//               </Typography>
-//               <Typography variant="body2" color="text.secondary">
-//                 Khởi chiếu: {new Date(movie.releaseDate).toLocaleDateString()}
-//               </Typography>
-//             </CardContent>
-//           </Card>
-//         </Grid>
-//       ))}
-//     </Grid>
-//   </Box>
-// );
+  const getUpcomingMovies = async () => {
+    try {
+      const response = await axios.get(`${backendUrl}/api/movie/upcoming`);
+      if (response.data.ok) {
+        setUpcomingMovies(response.data.movies);
+      }
+    } catch (error) {
+      console.error("Error fetching upcoming movies:", error);
+    }
+  };
 
-// MovieSection.propTypes = {
-//   title: PropTypes.string.isRequired,
-//   movies: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       _id: PropTypes.string.isRequired,
-//       title: PropTypes.string.isRequired,
-//       poster: PropTypes.string,
-//       portraitImgUrl: PropTypes.string,
-//       duration: PropTypes.number,
-//       releaseDate: PropTypes.string,
-//     })
-//   ).isRequired,
-// };
+  const getUser = async () => {
+    try {
+      const response = await axios.get(`${backendUrl}/api/auth/getuser`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (response.data.ok) {
+        setUser(response.data.data);
+      } else {
+        window.location.href = "/Login";
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  };
 
-// const UpcomingMovie = () => {
-//   const [upcomingMovies, setUpcomingMovies] = useState([]);
-//   const [trendingMovies, setTrendingMovies] = useState([]);
+  useEffect(() => {
+    getUpcomingMovies();
+    getUser();
+  }, []);
 
-//   useEffect(() => {
-//     const fetchMovies = async () => {
-//       try {
-//         const response = await axios.get(`${API_URL}/api/movies`);
-//         console.log('API Response:', response.data);
-        
-//         const allMovies = response.data.data || [];
-//         console.log('All Movies:', allMovies);
-        
-//         const halfLength = Math.ceil(allMovies.length / 2);
-//         const upcoming = allMovies.slice(0, halfLength);
-//         const trending = allMovies.slice(halfLength);
-        
-//         console.log('Upcoming Movies:', upcoming);
-//         console.log('Trending Movies:', trending);
-        
-//         setUpcomingMovies(upcoming);
-//         setTrendingMovies(trending);
-//       } catch (error) {
-//         console.error('Lỗi khi lấy dữ liệu phim:', error);
-//         setUpcomingMovies([]);
-//         setTrendingMovies([]);
-//       }
-//     };
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 4, // Show 4 movies on large screens
+      slidesToSlide: 4, // Slide 4 at a time
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2, // Show 2 movies on medium screens
+      slidesToSlide: 2, // Slide 2 at a time
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1, // Show 1 movie on small screens
+      slidesToSlide: 1, // Slide 1 at a time
+    },
+  };
 
-//     fetchMovies();
-//   }, []);
+  return (
+    <div className="rounded-lg shadow-md relative my-10 mx-auto px-[150px]">
+      {upcomingMovies.length > 0 && user && (
+        <>
+          <Carousel
+            responsive={responsive}
+            infinite={false}
+            arrows={false}
+            showDots={false}
+            autoPlay={false}
+            customTransition="all 0.5s"
+            transitionDuration={500}
+            containerClass="carousel-container"
+            itemClass="carousel-item-padding-40-px"
+            renderButtonGroupOutside={true}
+            customButtonGroup={<CustomButtonGroup />}
+          >
+            {upcomingMovies.map((Movie) => (
+              <div
+                key={Movie._id}
+                className="flex flex-row justify-between gap-4"
+              >
+                <MovieCard Movie={Movie} user={user} />
+              </div>
+            ))}
+          </Carousel>
+        </>
+      )}
+    </div>
+  );
+};
+const CustomButtonGroup = ({ next, previous }) => {
+  return (
+    <>
+      <button
+        className="absolute top-1/2 left-[90px] transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full shadow-lg hover:bg-gray-600 transition"
+        onClick={previous}
+      >
+        <FaChevronLeft size={20} />
+      </button>
+      <button
+        className="absolute top-1/2 right-[90px] transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full shadow-lg hover:bg-gray-600 transition"
+        onClick={next}
+      >
+        <FaChevronRight size={20} />
+      </button>
+    </>
+  );
+};
 
-//   console.log('State - Upcoming:', upcomingMovies);
-//   console.log('State - Trending:', trendingMovies);
-
-//   return (
-//     <Box sx={{ p: 3 }}>
-//       <MovieSection title="Upcoming Movies" movies={upcomingMovies} />
-//       <MovieSection title="Trending Movies" movies={trendingMovies} />
-//     </Box>
-//   );
-// };
-
-// export default UpcomingMovie;
+export default UpcomingMovie;

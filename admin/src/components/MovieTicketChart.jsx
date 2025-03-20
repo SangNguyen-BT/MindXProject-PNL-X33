@@ -17,7 +17,7 @@ const MovieTicketChart = ({bookings}) => {
     
   return (
     <div className="w-full h-64">
-      <h3 className="text-lg font-bold mb-2">Tickets Sold by Movie</h3>
+      <h3 className="text-lg font-bold mb-2 text-center">Tickets Sold by Movie</h3>
       <PieChart width={500} height={300}>
         <Pie
           data={chartData}

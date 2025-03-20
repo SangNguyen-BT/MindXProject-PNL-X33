@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import axios from "axios";
-import MovieCard from "./MovieCard";
-import {backendUrl} from "../../App"
-
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import axios from "axios";
+
+import MovieCard from "./MovieCard";
+import { backendUrl } from "../../App";
+
 const MovieList = () => {
   const [user, setUser] = useState(null);
-  // const [movies, setMovies] = useState([]);
-  const [onShowingMovies, setOnShowingMovies] = useState([])
+  const [onShowingMovies, setOnShowingMovies] = useState([]);
 
   const getOnShowingMovies = async () => {
     try {
@@ -25,40 +25,23 @@ const MovieList = () => {
   const getUser = async () => {
     try {
       const response = await axios.get(`${backendUrl}/api/auth/getuser`, {
-          headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-          }
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       if (response.data.ok) {
-          setUser(response.data.data); 
+        setUser(response.data.data);
       } else {
         window.location.href = "/Login";
       }
-  } catch (error) {
+    } catch (error) {
       console.error("Error fetching user:", error);
-
-  }
+    }
   };
 
-  // const getMovies = async () => {
-  //   try {
-  //     const response = await axios.get(`${backendUrl}/api/movie/movies`, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     if (response.data.ok) {
-  //       setMovies(response.data.data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching movies:", error);
-  //   }
-  // };
-
   useEffect(() => {
-    // getMovies();
-    getOnShowingMovies()
+    getOnShowingMovies();
     getUser();
   }, []);
 
@@ -84,19 +67,19 @@ const MovieList = () => {
     <div className="rounded-lg shadow-md relative my-10 mx-auto px-[150px]">
       {onShowingMovies.length > 0 && user && (
         <>
-       <Carousel
-  responsive={responsive}
-  infinite={false}
-  arrows={false}
-  showDots={false}
-  autoPlay={false}
-  customTransition="all 0.5s"
-  transitionDuration={500}
-  containerClass="carousel-container"
-  itemClass="carousel-item-padding-40-px"
-  renderButtonGroupOutside={true}
-  customButtonGroup={<CustomButtonGroup />}
->
+          <Carousel
+            responsive={responsive}
+            infinite={false}
+            arrows={false}
+            showDots={false}
+            autoPlay={false}
+            customTransition="all 0.5s"
+            transitionDuration={500}
+            containerClass="carousel-container"
+            itemClass="carousel-item-padding-40-px"
+            renderButtonGroupOutside={true}
+            customButtonGroup={<CustomButtonGroup />}
+          >
             {onShowingMovies.map((Movie) => (
               <div
                 key={Movie._id}
@@ -114,21 +97,20 @@ const MovieList = () => {
 const CustomButtonGroup = ({ next, previous }) => {
   return (
     <>
-
-    <button
-      className="absolute top-1/2 left-[90px] transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full shadow-lg hover:bg-gray-600 transition"
-      onClick={previous}
-    >
-      <FaChevronLeft size={20} />
-    </button>
-    <button
-      className="absolute top-1/2 right-[90px] transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full shadow-lg hover:bg-gray-600 transition"
-      onClick={next}
-    >
-      <FaChevronRight size={20} />
-    </button>
-  </>
-  )
+      <button
+        className="absolute top-1/2 left-[90px] transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full shadow-lg hover:bg-gray-600 transition"
+        onClick={previous}
+      >
+        <FaChevronLeft size={20} />
+      </button>
+      <button
+        className="absolute top-1/2 right-[90px] transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full shadow-lg hover:bg-gray-600 transition"
+        onClick={next}
+      >
+        <FaChevronRight size={20} />
+      </button>
+    </>
+  );
 };
 
 export default MovieList;

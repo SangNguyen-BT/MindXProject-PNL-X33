@@ -26,8 +26,8 @@ const RevenueChart = ({ bookings }) => {
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData}>
           <XAxis dataKey="date" />
-          <YAxis tickFormatter={(value) => `$${value}`}/>
-          <Tooltip formatter={(value) => `$${value}`}/>
+          <YAxis tickFormatter={(value) => `${new Intl.NumberFormat('vi-VN').format(value)} VND`}/>
+          <Tooltip formatter={(value) => `${new Intl.NumberFormat('vi-VN').format(value)} VND`}/>
           <Bar dataKey="revenue" fill="#8884d8" />
         </BarChart>
       </ResponsiveContainer>
