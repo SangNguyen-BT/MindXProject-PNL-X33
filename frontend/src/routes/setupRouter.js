@@ -14,6 +14,7 @@ import MyProfile from "../pages/MyProfile"
 import BuyTickets from "../pages/BuyTickets";
 import SelectSeat from "../pages/SelectSeat";
 import Payment from "../pages/Payment"
+import TicketInfo from "../components/ticket/TicketInfo";
 
 const setupRouter = [
   { url: "/", component: HomePage },
@@ -31,5 +32,6 @@ const setupRouter = [
   { url : "/tickets", component : Tickets},
   { url : "/termsCondition", component : TermConditions},
   { url : "/privacy", component : Privacy},
+  { url : "/ticket-info", component : TicketInfo}
 ];
 export { setupRouter };

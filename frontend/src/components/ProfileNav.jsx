@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { MdAccountCircle } from 'react-icons/md';
-import { TiClipboard } from 'react-icons/ti';
-import { IoShieldCheckmarkSharp } from 'react-icons/io5';
-import { HiOutlineTicket } from 'react-icons/hi';
-import { FiUser } from 'react-icons/fi';
-import './ProfileNav.css';
-import axios from "axios"
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { MdAccountCircle } from "react-icons/md";
+import { TiClipboard } from "react-icons/ti";
+import { IoShieldCheckmarkSharp } from "react-icons/io5";
+import { HiOutlineTicket } from "react-icons/hi";
+import { FiUser } from "react-icons/fi";
+import "./ProfileNav.css";
+import axios from "axios";
 import { backendUrl } from "../App";
 const ProfileNav = () => {
   const location = useLocation();
   const [user, setUser] = useState({
-    name: '',
+    name: "",
     email: "",
     city: "",
-    avatar: localStorage.getItem('userAvatar') || null, 
+    avatar: localStorage.getItem("userAvatar") || null,
   });
 
   useEffect(() => {
     if (user.avatar) {
-      localStorage.setItem('userAvatar', user.avatar);
+      localStorage.setItem("userAvatar", user.avatar);
     }
   }, [user.avatar]);
 
@@ -36,7 +36,7 @@ const ProfileNav = () => {
 
   const handleRemoveAvatar = () => {
     setUser((prevUser) => ({ ...prevUser, avatar: null }));
-    localStorage.removeItem('userAvatar');
+    localStorage.removeItem("userAvatar");
   };
   const getUser = async () => {
     try {
@@ -54,56 +54,81 @@ const ProfileNav = () => {
   };
 
   useEffect(() => {
-    getUser()
-  }, [])
+    getUser();
+  }, []);
   return (
-    <div className="dashboard">
+    <div className="dashboard mt-10">
       <div className="avatar-section">
-  {user.avatar ? (
-    <img src={user.avatar} alt="User Avatar" className="avatar" />
-  ) : (
-    <div className="avatar-placeholder">
-      <FiUser size={40} color="#5033A2" />
-    </div>
-  )}
-  <p className="user-name">{user.name}</p>
-  <div className="avatar-actions">
-    <label className="change-avatar">
-      Change Avatar
-      <input type="file" accept="image/*" onChange={handleAvatarChange} style={{ display: 'none' }} />
-    </label>
-    {user.avatar && (
-      <button className="remove-avatar" onClick={handleRemoveAvatar}>
-        Remove Avatar
-      </button>
-    )}
-  </div>
-</div>
-<hr className="divider" />
-      <nav className='navbar-dashboard'>
+        {user.avatar ? (
+          <img src={user.avatar} alt="User Avatar" className="avatar" />
+        ) : (
+          <div className="avatar-placeholder">
+            <FiUser size={40} color="#5033A2" />
+          </div>
+        )}
+        <p className="user-name">{user.name}</p>
+        <div className="avatar-actions">
+          <label className="change-avatar">
+            Change Avatar
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarChange}
+              style={{ display: "none" }}
+            />
+          </label>
+          {user.avatar && (
+            <button className="remove-avatar" onClick={handleRemoveAvatar}>
+              Remove Avatar
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="divider" />
+      <nav className="navbar-dashboard">
         <ul className="dashboard-menu">
-          <li className='li-dashboard'>
-            <Link className={`dashboard-link ${location.pathname === "/accountInfo" ? 'active' : ''}`} to="/accountInfo">
-              <MdAccountCircle className='icon' />
-              <span className='span-dash'>Account Info</span>
+          <li className="li-dashboard">
+            <Link
+              className={`dashboard-link ${
+                location.pathname === "/accountInfo" ? "active" : ""
+              }`}
+              to="/accountInfo"
+            >
+              <MdAccountCircle className="icon" />
+              <span className="span-dash">Account Info</span>
             </Link>
           </li>
-          <li className='li-dashboard'>
-            <Link to="/tickets" className={`dashboard-link ${location.pathname === "/tickets" ? 'active' : ''}`}>
-              <HiOutlineTicket className='icon' />
-              <span className='span-dash'>My Tickets</span>
+          <li className="li-dashboard">
+            <Link
+              to="/tickets"
+              className={`dashboard-link ${
+                location.pathname === "/tickets" ? "active" : ""
+              }`}
+            >
+              <HiOutlineTicket className="icon" />
+              <span className="span-dash">My Tickets</span>
             </Link>
           </li>
-          <li className='li-dashboard'>
-            <Link to="/privacy" className={`dashboard-link ${location.pathname === "/privacy" ? 'active' : ''}`}>
-              <IoShieldCheckmarkSharp className='icon' />
-              <span className='span-dash'>Privacy Policy</span>
+          <li className="li-dashboard">
+            <Link
+              to="/privacy"
+              className={`dashboard-link ${
+                location.pathname === "/privacy" ? "active" : ""
+              }`}
+            >
+              <IoShieldCheckmarkSharp className="icon" />
+              <span className="span-dash">Privacy Policy</span>
             </Link>
           </li>
-          <li className='li-dashboard'>
-            <Link to="/termsCondition" className={`dashboard-link ${location.pathname === "/termsCondition" ? 'active' : ''}`}>
-              <TiClipboard className='icon' />
-              <span className='span-dash'>Terms & Conditions</span>
+          <li className="li-dashboard">
+            <Link
+              to="/termsCondition"
+              className={`dashboard-link ${
+                location.pathname === "/termsCondition" ? "active" : ""
+              }`}
+            >
+              <TiClipboard className="icon" />
+              <span className="span-dash">Terms & Conditions</span>
             </Link>
           </li>
         </ul>

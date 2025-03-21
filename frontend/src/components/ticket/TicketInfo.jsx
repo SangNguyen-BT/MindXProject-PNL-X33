@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { QRCodeSVG } from 'qrcode.react';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { QRCodeSVG } from "qrcode.react";
+import axios from "axios";
 
 const TicketInfo = () => {
   const [ticketData, setTicketData] = useState(null);
@@ -12,22 +12,24 @@ const TicketInfo = () => {
   useEffect(() => {
     const fetchTicketData = async () => {
       try {
-        const bookingId = new URLSearchParams(location.search).get('bookingId');
+        const bookingId = new URLSearchParams(location.search).get("bookingId");
         if (!bookingId) {
-          navigate('/');
+          navigate("/");
           return;
         }
 
-        const response = await axios.get(`http://localhost:8080/api/movie/booking/${bookingId}`);
-        console.log('Response:', response.data);
+        const response = await axios.get(
+          `http://localhost:8080/api/movie/booking/${bookingId}`
+        );
+        console.log("Response:", response.data);
 
         if (response.data.ok) {
           setTicketData(response.data.data);
         } else {
-          throw new Error('Không thể lấy thông tin vé');
+          throw new Error("Không thể lấy thông tin vé");
         }
       } catch (error) {
-        console.error('Lỗi khi lấy thông tin vé:', error);
+        console.error("Lỗi khi lấy thông tin vé:", error);
         setError(error.message);
       }
     };
@@ -40,7 +42,9 @@ const TicketInfo = () => {
   }
 
   if (!ticketData) {
-    return <div className="text-white text-center">Đang tải thông tin vé...</div>;
+    return (
+      <div className="text-white text-center">Đang tải thông tin vé...</div>
+    );
   }
 
   // Tạo chuỗi dữ liệu cho QR code
@@ -50,7 +54,7 @@ const TicketInfo = () => {
     screenName: ticketData.screenName,
     showTime: ticketData.showTime,
     showDate: ticketData.showDate,
-    seats: ticketData.seats.map(seat => seat.seat_id).join(', ')
+    seats: ticketData.seats.map((seat) => seat.seat_id).join(", "),
   });
 
   return (
@@ -60,7 +64,7 @@ const TicketInfo = () => {
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
             Thông Tin Vé
           </h2>
-          
+
           {/* QR Code */}
           <div className="flex justify-center mb-6">
             <QRCodeSVG
@@ -85,7 +89,12 @@ const TicketInfo = () => {
               <div>
                 <p className="text-gray-600">Ngày chiếu:</p>
                 <p className="font-semibold">
-                  {new Date(ticketData.showDate).toLocaleDateString()}
+                  {new Date(ticketData.showDate).toLocaleDateString("en-US", {
+                    weekday: "long",
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
                 </p>
               </div>
               <div>
@@ -97,16 +106,16 @@ const TicketInfo = () => {
             <div>
               <p className="text-gray-600">Ghế:</p>
               <p className="font-semibold">
-                {ticketData.seats.map(seat => seat.seat_id).join(', ')}
+                {ticketData.seats.map((seat) => seat.seat_id).join(", ")}
               </p>
             </div>
 
             <div className="border-t pt-4">
               <p className="text-gray-600">Tổng tiền:</p>
               <p className="text-2xl font-bold text-gray-800">
-                {new Intl.NumberFormat('vi-VN', {
-                  style: 'currency',
-                  currency: 'VND'
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
                 }).format(ticketData.totalPrice)}
               </p>
             </div>
@@ -117,4 +126,4 @@ const TicketInfo = () => {
   );
 };
 
-export default TicketInfo; 
+export default TicketInfo;

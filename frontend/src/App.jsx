@@ -27,7 +27,6 @@ function App() {
             const Page = route.component;
             return <Route path={route.url} key={index} element={<Page setUserName={setUserName} />} />;
           })}
-          <Route path="/ticket-info" element={<TicketInfo />} />
         </Routes>
         <ScrollTopTop responsive={Responsive}/>
       </main>
