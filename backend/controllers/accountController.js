@@ -6,10 +6,19 @@ import AccountModel from "../model/Account.js";
 
 export const register = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    let { name, email, password, telephone } = req.body;
 
-    if (!name || !email || !password)
-      return res.status(401).json("Require name, email, password");
+    name = name.trim();
+    email = email.trim();
+    telephone = telephone.trim();
+
+    if (!name || !email || !password || !telephone)
+      return res.status(401).json("Require name, email, password, phone");
+
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(telephone)) {
+      return res.status(400).json({ message: "Phone number must be 10 digits", success: false });
+    }
 
     const existedAccount = await AccountModel.findOne({ email });
     if (existedAccount) return res.status(400).json("Email already exists");
@@ -21,6 +30,7 @@ export const register = async (req, res, next) => {
       name,
       email,
       password: hash,
+      telephone,
       city: "HCM",
     });
 
@@ -180,11 +190,11 @@ export const changeCity = async (req, res, next) => {
 export const updateUserProfile = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, city } = req.body;
+    const { name, email, city, telephone } = req.body;
 
     const updatedUser = await AccountModel.findByIdAndUpdate(
       id,
-      { name, email, city },
+      { name, email, city, telephone },
       { new: true }
     );
 

@@ -17,6 +17,7 @@ const Payment = () => {
   const [user, setUser] = useState({
     name: "",
     email: "",
+    telephone:"",
     city: "",
   });
 
@@ -109,7 +110,7 @@ const Payment = () => {
       <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-12 border-t pt-8 lg:pt-14">
         {/* Left side - Customer Information */}
         <div className="flex flex-col gap-6 w-full lg:w-1/2">
-          <div className="text-xl sm:text-2xl mb-4">
+          <div className="text-xl sm:text-2xl mt-4">
             <Title text1="CUSTOMER" text2=" INFORMATION" />
           </div>
           <form className="flex flex-col gap-4">
@@ -117,7 +118,6 @@ const Payment = () => {
               type="text"
               value={user.name}
               readOnly
-              placeholder="Name"
               className="border border-gray-300 rounded-lg py-2 px-4 w-full sm:w-auto focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
 
@@ -125,13 +125,11 @@ const Payment = () => {
               type="email"
               value={user.email}
               readOnly
-              placeholder="Email address"
               className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
             <input
-              type="text"
-              placeholder="City"
-              value={user.city}
+              type="tel"
+              value={user.telephone}
               readOnly
               className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
@@ -142,7 +140,7 @@ const Payment = () => {
         <div className="w-full lg:w-1/2">
           {/* Booking Details */}
           <div className="mb-8">
-            <div className="text-xl sm:text-2xl mb-4 ">
+            <div className="text-xl sm:text-2xl mt-4 ">
               <Title text1="BOOKING" text2=" DETAILS" />
             </div>
             <ul className="bg-black p-6 space-y-2">

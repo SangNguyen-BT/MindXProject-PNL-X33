@@ -11,6 +11,7 @@ const Login = ({setUserName}) => {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [telephone, setTelephone] = useState()
   const [currentState, setCurrentState] = useState("Sign up");
 
   const [forgotPassword, setForgotPassword] = useState(false)
@@ -45,7 +46,7 @@ const Login = ({setUserName}) => {
       const data =
         currentState === "Login"
           ? { email, password }
-          : { name, email, password };
+          : { name, telephone, email, password };
   
       try {
         const response = await axios.post(url, data);
@@ -103,6 +104,7 @@ const Login = ({setUserName}) => {
     {!forgotPassword && (
       <>
       {currentState === "Sign up" && (
+        <>
         <input
           type="text"
           value={name}
@@ -111,6 +113,15 @@ const Login = ({setUserName}) => {
           placeholder="Name"
           required
         />
+        <input
+          type="tel"
+          value={telephone}
+          onChange={(e) => setTelephone(e.target.value)}
+          className="w-full px-3 py-2 border border-gray-800"
+          placeholder="Phone"
+          required
+        />
+        </>
       )}
       <input
         type="email"

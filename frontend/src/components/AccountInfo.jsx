@@ -9,6 +9,7 @@ const AccountInfo = () => {
     const [user, setUser] = useState({
         name: "",
         email: "",
+        telephone: "",
         city: "",
     });
 
@@ -35,7 +36,7 @@ const AccountInfo = () => {
         try {
             const response = await axios.put(
                 `${backendUrl}/api/auth/update/${user._id}`,
-                { name: user.name, email: user.email, city: user.city },
+                { name: user.name, email: user.email, city: user.city, telephone: user.telephone },
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -118,6 +119,16 @@ const AccountInfo = () => {
                                     type="email"
                                     value={user.email}
                                     onChange={(e) => setUser({ ...user, email: e.target.value })}
+                                    className="w-full p-2 border border-gray-400 rounded-md"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block font-semibold">Telephone</label>
+                                <input
+                                    type="tel"
+                                    value={user.telephone}
+                                    onChange={(e) => setUser({ ...user, telephone: e.target.value })}
                                     className="w-full p-2 border border-gray-400 rounded-md"
                                 />
                             </div>

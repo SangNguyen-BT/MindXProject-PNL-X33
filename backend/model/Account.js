@@ -5,6 +5,7 @@ const accountSchema = new mongoose.Schema({
     email: String,
     password: String,
     bookings: Array,
+    telephone: String,
     city: String
 },{timestamps: true})
 
