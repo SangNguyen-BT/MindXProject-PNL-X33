@@ -46,7 +46,7 @@ const MovieDetail = () => {
   return (
     <>
       {movie && (
-        <div className="flex flex-col px-[200px]" responsive={Responsive}>
+        <div className="flex flex-col px-[140px]" responsive={Responsive}>
           <div
             className="bg-no-repeat bg-cover bg-center"
             style={{
