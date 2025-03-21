@@ -3,9 +3,12 @@ import axios from "axios";
 import { backendUrl } from "../App";
 import ProfileNav from "./ProfileNav";
 import { Responsive } from "./Responsive";
+import { useNavigate } from "react-router-dom";
+
 const MyProfile = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true); 
+  const navigate = useNavigate();
 
   const getBookings = async () => {
     setLoading(true); 
@@ -34,7 +37,10 @@ const MyProfile = () => {
     getBookings();
   }, []);
 
-  
+  // Hàm xử lý khi click vào thẻ vé
+  const handleViewTicketDetails = (bookingId) => {
+    navigate(`/ticket-info?bookingId=${bookingId}`);
+  };
 
   return (
     <>
@@ -49,36 +55,34 @@ const MyProfile = () => {
               <p className="text-white mt-5">No data.</p>
             ) : (
               bookings.map((booking) => {
-               
                 return (
                   <div
-                    className="my-5 border border-gray-300 rounded p-4"
-                    key={booking._id } 
+                    className="my-5 border border-gray-300 rounded p-4 cursor-pointer hover:bg-gray-800 transition-all"
+                    key={booking._id}
+                    onClick={() => handleViewTicketDetails(booking._id)}
                   >
                     <div className="flex items-center mb-2.5">
                       <h3 className="mr-2.5 text-red-100 font-normal">Movie</h3>
-                      <p className="m-0 text-yellow-300">{booking.movieTitle }</p>
+                      <p className="m-0 text-yellow-300">{booking.movieTitle}</p>
                     </div>
                     <div className="flex items-center mb-2.5">
                       <h3 className="mr-2.5 text-red-100 font-normal">Cinema</h3>
-                      <p className="m-0 text-yellow-300">{booking.screenName }</p>
+                      <p className="m-0 text-yellow-300">{booking.screenName}</p>
                     </div>
                     <div className="flex items-center mb-2.5">
                       <h3 className="mr-2.5 text-red-100 font-normal">Location</h3>
                       <p className="m-0 text-yellow-300">
-                        {booking.screenId?.location }
+                        {booking.screenId?.location}
                       </p>
                     </div>
                     <div className="flex items-center mb-2.5">
                       <h3 className="mr-2.5 text-red-100 font-normal">Seats</h3>
                       <p className="m-0 text-yellow-300">
-                      {booking.seats.map((seat, index) => {
-                    return (
-                      <span className="flex gap-2" key={index}>
-                        {seat.seat_id}{" "}
-                      </span>
-                    );
-                  })}
+                        {booking.seats.map((seat, index) => (
+                          <span className="flex gap-2" key={index}>
+                            {seat.seat_id}{" "}
+                          </span>
+                        ))}
                       </p>
                     </div>
                     <div className="flex items-center mb-2.5">
@@ -88,17 +92,17 @@ const MyProfile = () => {
                     <div className="flex items-center mb-2.5">
                       <h3 className="mr-2.5 text-red-100 font-normal">Show Date</h3>
                       <p className="m-0 text-yellow-300">
-                      {new Date(booking.showDate).toLocaleDateString("en-US", {
-                    weekday: "long",
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                        {new Date(booking.showDate).toLocaleDateString("en-US", {
+                          weekday: "long",
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
                       </p>
                     </div>
                     <div className="flex items-center mb-2.5">
                       <h3 className="mr-2.5 text-red-100 font-normal">Show Time</h3>
-                      <p className="m-0 text-yellow-300">{booking.showTime }</p>
+                      <p className="m-0 text-yellow-300">{booking.showTime}</p>
                     </div>
                   </div>
                 );
