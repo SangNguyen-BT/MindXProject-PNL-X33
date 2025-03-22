@@ -373,7 +373,7 @@ export const removeBooking = async (req, res, next) => {
       return res.status(404).json({message: "No Booking found"})
     }
 
-    const { seats, screenId } = booking;
+    const { seats, screenId, userId } = booking;
 
     const screen = await ScreenModel.findById(screenId)
     if (!screen) {
@@ -381,7 +381,8 @@ export const removeBooking = async (req, res, next) => {
     }
 
     screen.movieSchedules.forEach((schedule) => {
-      if (schedule.showTime === booking.showTime && schedule.showDate.getTime() === booking.showDate.getTime()) {
+      if (schedule.showTime === booking.showTime && 
+        schedule.showDate.getTime() === booking.showDate.getTime()) {
         // Xóa ghế trong notAvailableSeats
         schedule.notAvailableSeats = schedule.notAvailableSeats.filter(
           (seat) => !seats.some((s) => s.row === seat.row && s.col === seat.col && s.seat_id === seat.seat_id)
@@ -390,6 +391,10 @@ export const removeBooking = async (req, res, next) => {
     });
 
     await screen.save();
+
+    await AccountModel.findByIdAndUpdate(userId, {
+      $pull: { bookings: bookingId },
+    });
 
     await BookingModel.findByIdAndDelete(bookingId);
 

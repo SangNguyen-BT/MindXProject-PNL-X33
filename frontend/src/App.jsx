@@ -5,12 +5,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
 
 import Footer from "./components/Footer";
-
 import Navbar from "./components/Navbar";
 import ScrollTopTop from "./components/detailmoviepage/ScrollToTop";
-
 import { Responsive } from "./components/Responsive";
-import TicketInfo from './components/ticket/TicketInfo';
+
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 
 function App() {

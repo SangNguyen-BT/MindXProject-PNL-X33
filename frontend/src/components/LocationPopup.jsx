@@ -66,6 +66,7 @@ const LocationPopup = ({ setShowLocationPopup }) => {
         </select>
         <button
           className="rounded-full border-none outline-none px-5 py-2 text-lg cursor-pointer bg-[var(--col1)] text-white bg-cyan-500 hover:bg-cyan-300"
+          onClick={() => handleSave()}
         >
           Save
         </button>

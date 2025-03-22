@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-import { motion, AnimatePresence } from "framer-motion";
 import LocationPopup from "../components/LocationPopup";
 import { RiArrowDropDownFill } from "react-icons/ri";
 
@@ -13,7 +12,6 @@ import {Responsive} from "./Responsive"
 
 const Navbar = ({ userName, setUserName }) => {
 
-  const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // search value
 
   const [showLocationPopup, setShowLocationPopup] = useState(false);

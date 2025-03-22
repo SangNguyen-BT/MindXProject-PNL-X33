@@ -57,7 +57,7 @@ const ProfileNav = () => {
     getUser();
   }, []);
   return (
-    <div className="dashboard mt-10">
+    <div className="dashboard">
       <div className="avatar-section">
         {user.avatar ? (
           <img src={user.avatar} alt="User Avatar" className="avatar" />

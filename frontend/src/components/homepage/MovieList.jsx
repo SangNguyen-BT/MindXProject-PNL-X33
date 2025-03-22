@@ -37,6 +37,7 @@ const MovieList = () => {
       }
     } catch (error) {
       console.error("Error fetching user:", error);
+      window.location.href = "/Login";
     }
   };
 

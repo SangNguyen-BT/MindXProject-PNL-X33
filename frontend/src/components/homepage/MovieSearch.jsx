@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { BsFillStarFill } from "react-icons/bs";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { backendUrl } from "../../App";
 
@@ -24,11 +26,11 @@ const MovieSearch = () => {
       if (response.data.ok) {
         setUser(response.data.data);
       } else {
-        window.location.href = "/Login";
+        setUser(null)
       }
     } catch (error) {
       console.error("Error fetching user:", error);
-      window.location.href = "/Login";
+      setUser(null)
     }
   };
 
@@ -60,6 +62,15 @@ const MovieSearch = () => {
     searchMovies();
     getUser();
   }, [keyword]);
+
+  const handleDetailClick = (movieId) => {
+    if (!user) {
+      toast.error("You need to login !");
+      navigate("/Login");
+    } else {
+      navigate(`/${user.city}/movies/${movieId}`);
+    }
+  };
 
   return (
     <div className="bg-black min-h-screen p-10">
@@ -98,9 +109,7 @@ const MovieSearch = () => {
                     <button
                       type="button"
                       className="bg-red-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-red-700 transition-all duration-300 w-max mt-2"
-                      onClick={() =>
-                        navigate(`/${user.city}/movies/${movie._id}`)
-                      }
+                      onClick={() => handleDetailClick(movie._id)}
                     >
                       Detail
                     </button>
