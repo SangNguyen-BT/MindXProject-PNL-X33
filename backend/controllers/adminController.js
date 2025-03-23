@@ -7,7 +7,7 @@ import sendEmail from "../utils/email.js";
 
 export const adminRegister = async (req, res, next) => {
   try {
-    const { name, email, password} = req.body;
+    let { name, email, password} = req.body;
 
     if (!name || !email || !password)
       return res.status(400).json({ message: "Require name, email, and password", success: false });
