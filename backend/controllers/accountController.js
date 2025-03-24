@@ -1,8 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import dotenv from "dotenv"
 
 import AccountModel from "../model/Account.js";
+
+dotenv.config()
 
 export const register = async (req, res, next) => {
   try {
@@ -91,7 +94,7 @@ export const forgotPassword = async (req, res, next) => {
     });
 
     // Gửi token qua email
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetUrl = `${process.env.USER_URL}/reset-password/${resetToken}`;
 
     // Cấu hình transporter Nodemailer
     const transporter = nodemailer.createTransport({
