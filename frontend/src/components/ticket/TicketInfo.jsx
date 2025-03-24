@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import axios from "axios";
 
+import { backendUrl } from "../../App";
+
 const TicketInfo = () => {
   const [ticketData, setTicketData] = useState(null);
   const [error, setError] = useState(null);
@@ -19,7 +21,7 @@ const TicketInfo = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:8080/api/movie/booking/${bookingId}`
+          `${backendUrl}/api/movie/booking/${bookingId}`
         );
         console.log("Response:", response.data);
 
