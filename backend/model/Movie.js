@@ -15,6 +15,7 @@ const movieSchema = new mongoose.Schema({
       celebImage: String,
     },
   ],
+  category: String
 });
 
 const MovieModel = mongoose.model("movies", movieSchema);
